@@ -1,0 +1,15 @@
+# Visual Studio / .NET Core
+bin/
+obj/
+TestResults/
+.vs/
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# IDE / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
