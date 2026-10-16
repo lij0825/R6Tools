@@ -1,4 +1,5 @@
 using System;
+using R6Tools.Services;
 using Wpf.Ui.Controls;
 
 namespace R6Tools.Views
@@ -8,6 +9,11 @@ namespace R6Tools.Views
         public MainWindow()
         {
             InitializeComponent();
+
+            Loaded += (s, e) =>
+            {
+                ThemeService.Instance.ApplyCurrentTheme();
+            };
             
             try
             {

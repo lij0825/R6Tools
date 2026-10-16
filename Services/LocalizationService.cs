@@ -225,17 +225,29 @@ namespace R6Tools.Services
 
 		public void Initialize()
 		{
-			SetLanguage(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.ToLowerInvariant() == "en" ? "en" : "ko");
+			string savedLang = AppSettingsService.Instance.Settings.Language;
+			if (string.IsNullOrWhiteSpace(savedLang))
+			{
+				savedLang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.ToLowerInvariant() == "en" ? "en" : "ko";
+			}
+			SetLanguage(savedLang, saveSettings: false);
 		}
 
 		public void ToggleLanguage()
 		{
-			SetLanguage(CurrentLanguage == "ko" ? "en" : "ko");
+			SetLanguage(CurrentLanguage == "ko" ? "en" : "ko", saveSettings: true);
 		}
 
-		public void SetLanguage(string lang)
+		public void SetLanguage(string lang, bool saveSettings = true)
 		{
 			CurrentLanguage = lang == "en" ? "en" : "ko";
+
+			if (saveSettings)
+			{
+				AppSettingsService.Instance.Settings.Language = CurrentLanguage;
+				AppSettingsService.Instance.Save();
+			}
+
 			var targetDict = CurrentLanguage == "en" ? _en : _ko;
 
 			if (Application.Current != null)

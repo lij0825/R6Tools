@@ -16,22 +16,36 @@ namespace R6Tools.Services
 
 		public void Initialize()
 		{
-			// 시스템 테마 감지 또는 기본 라이트 테마
-			SetDarkMode(false);
+			// 저장된 테마 불러오기
+			bool savedDark = AppSettingsService.Instance.Settings.IsDarkMode;
+			SetDarkMode(savedDark, saveSettings: false);
 		}
 
 		public void ToggleTheme()
 		{
-			SetDarkMode(!IsDarkMode);
+			SetDarkMode(!IsDarkMode, saveSettings: true);
 		}
 
-		public void SetDarkMode(bool isDark)
+		public void SetDarkMode(bool isDark, bool saveSettings = true)
 		{
 			IsDarkMode = isDark;
 
+			if (saveSettings)
+			{
+				AppSettingsService.Instance.Settings.IsDarkMode = isDark;
+				AppSettingsService.Instance.Save();
+			}
+
+			ApplyCurrentTheme();
+
+			ThemeChanged?.Invoke(this, EventArgs.Empty);
+		}
+
+		public void ApplyCurrentTheme()
+		{
 			try
 			{
-				ApplicationThemeManager.Apply(isDark ? ApplicationTheme.Dark : ApplicationTheme.Light);
+				ApplicationThemeManager.Apply(IsDarkMode ? ApplicationTheme.Dark : ApplicationTheme.Light);
 			}
 			catch
 			{
@@ -40,7 +54,7 @@ namespace R6Tools.Services
 
 			if (Application.Current != null)
 			{
-				if (isDark)
+				if (IsDarkMode)
 				{
 					// TDS Dark Theme Color Tokens
 					Application.Current.Resources["TossWhiteBrush"] = new SolidColorBrush(Color.FromRgb(0x1B, 0x1D, 0x22));
@@ -75,8 +89,6 @@ namespace R6Tools.Services
 					Application.Current.Resources["TossRedWeakBrush"] = new SolidColorBrush(Color.FromRgb(0xFE, 0xEB, 0xEB));
 				}
 			}
-
-			ThemeChanged?.Invoke(this, EventArgs.Empty);
 		}
 	}
 }

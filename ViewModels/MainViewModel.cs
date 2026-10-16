@@ -351,6 +351,11 @@ namespace R6Tools.ViewModels
 		partial void OnMouseDpiChanged(int value)
 		{
 			RecalculateCm360();
+			if (value > 0)
+			{
+				AppSettingsService.Instance.Settings.MouseDpi = value;
+				AppSettingsService.Instance.Save();
+			}
 		}
 
 		partial void OnMouseMultiplierTextChanged(string value)
@@ -378,6 +383,12 @@ namespace R6Tools.ViewModels
 			InitializeServers();
 			InitializeCacheTargets();
 			LoadPresets();
+
+			int savedDpi = AppSettingsService.Instance.Settings.MouseDpi;
+			if (savedDpi > 0)
+			{
+				MouseDpi = savedDpi;
+			}
 			RecalculateCm360();
 
 			MatchReplayPath = _replayService.DetectMatchReplayPath();
