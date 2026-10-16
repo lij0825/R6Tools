@@ -6,10 +6,55 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!-- WPF-UI 다크 테마 적용 -->
-                <ui:ThemesDictionary Theme="Dark" />
+                <!-- WPF-UI 라이트 테마 기반 위에 토스 디자인 시스템 토큰 적용 -->
+                <ui:ThemesDictionary Theme="Light" />
                 <ui:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
+
+            <!-- 토스 디자인 시스템 (TDS) 컬러 팔레트 -->
+            <Color x:Key="TossBlue">#3182F6</Color>
+            <Color x:Key="TossBluePressed">#1B64DA</Color>
+            <Color x:Key="TossBlueWeak">#E8F3FF</Color>
+
+            <Color x:Key="TossGrey900">#191F28</Color>
+            <Color x:Key="TossGrey800">#333D4B</Color>
+            <Color x:Key="TossGrey700">#4E5968</Color>
+            <Color x:Key="TossGrey600">#6B7684</Color>
+            <Color x:Key="TossGrey500">#8B95A1</Color>
+            <Color x:Key="TossGrey400">#B0B8C1</Color>
+            <Color x:Key="TossGrey200">#E5E8EB</Color>
+            <Color x:Key="TossGrey100">#F2F4F6</Color>
+            <Color x:Key="TossGrey50">#F9FAFB</Color>
+            <Color x:Key="TossWhite">#FFFFFF</Color>
+
+            <Color x:Key="TossRed">#F04452</Color>
+            <Color x:Key="TossRedWeak">#FEEBEB</Color>
+            <Color x:Key="TossGreen">#04C062</Color>
+            <Color x:Key="TossGreenWeak">#E6F9F0</Color>
+
+            <!-- SolidColorBrush 매핑 -->
+            <SolidColorBrush x:Key="TossBlueBrush" Color="{StaticResource TossBlue}" />
+            <SolidColorBrush x:Key="TossBluePressedBrush" Color="{StaticResource TossBluePressed}" />
+            <SolidColorBrush x:Key="TossBlueWeakBrush" Color="{StaticResource TossBlueWeak}" />
+
+            <SolidColorBrush x:Key="TossGrey900Brush" Color="{StaticResource TossGrey900}" />
+            <SolidColorBrush x:Key="TossGrey800Brush" Color="{StaticResource TossGrey800}" />
+            <SolidColorBrush x:Key="TossGrey700Brush" Color="{StaticResource TossGrey700}" />
+            <SolidColorBrush x:Key="TossGrey600Brush" Color="{StaticResource TossGrey600}" />
+            <SolidColorBrush x:Key="TossGrey500Brush" Color="{StaticResource TossGrey500}" />
+            <SolidColorBrush x:Key="TossGrey400Brush" Color="{StaticResource TossGrey400}" />
+            <SolidColorBrush x:Key="TossGrey200Brush" Color="{StaticResource TossGrey200}" />
+            <SolidColorBrush x:Key="TossGrey100Brush" Color="{StaticResource TossGrey100}" />
+            <SolidColorBrush x:Key="TossGrey50Brush" Color="{StaticResource TossGrey50}" />
+            <SolidColorBrush x:Key="TossWhiteBrush" Color="{StaticResource TossWhite}" />
+
+            <SolidColorBrush x:Key="TossRedBrush" Color="{StaticResource TossRed}" />
+            <SolidColorBrush x:Key="TossRedWeakBrush" Color="{StaticResource TossRedWeak}" />
+            <SolidColorBrush x:Key="TossGreenBrush" Color="{StaticResource TossGreen}" />
+            <SolidColorBrush x:Key="TossGreenWeakBrush" Color="{StaticResource TossGreenWeak}" />
+
+            <!-- 기본 서체 Pretendard 스택 지정 -->
+            <FontFamily x:Key="TossFontFamily">Pretendard, -apple-system, Segoe UI, Malgun Gothic, sans-serif</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
