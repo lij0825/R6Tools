@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace R6ServerChanger.Services
+namespace R6Tools.Services
 {
     public class IniParserService
     {

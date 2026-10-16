@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using R6ServerChanger.Models;
+using R6Tools.Models;
 
-namespace R6ServerChanger.Services
+namespace R6Tools.Services
 {
     public class R6PathService
     {

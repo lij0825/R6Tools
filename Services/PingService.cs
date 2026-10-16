@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
-namespace R6ServerChanger.Services
+namespace R6Tools.Services
 {
     public class PingService
     {

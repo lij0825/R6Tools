@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace R6ServerChanger.Models
+namespace R6Tools.Models
 {
     public partial class DataCenterInfo : ObservableObject
     {

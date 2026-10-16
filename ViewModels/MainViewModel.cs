@@ -1,14 +1,14 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using R6ServerChanger.Models;
-using R6ServerChanger.Services;
+using R6Tools.Models;
+using R6Tools.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace R6ServerChanger.ViewModels
+namespace R6Tools.ViewModels
 {
     public partial class MainViewModel : ObservableObject
     {

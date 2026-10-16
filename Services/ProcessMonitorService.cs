@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Linq;
 
-namespace R6ServerChanger.Services
+namespace R6Tools.Services
 {
     public class ProcessMonitorService
     {

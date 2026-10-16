@@ -1,4 +1,4 @@
-namespace R6ServerChanger.Models
+namespace R6Tools.Models
 {
     public class UserAccount
     {

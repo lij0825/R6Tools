@@ -1,10 +1,10 @@
-# Rainbow Six Siege Server Changer 🎯
+# Rainbow Six Siege Tools (R6 Tools) 🎯
 
-Rainbow Six Siege(레인보우 식스 시즈)의 데이터센터(서버)를 빠르고 안전하게 변경할 수 있는 C# WPF 기반 데스크톱 유틸리티 프로그램입니다.
+Rainbow Six Siege(레인보우 식스 시즈)의 데이터센터(서버) 변경 및 설정(멀티플라이어 등)을 빠르고 안전하게 관리할 수 있는 C# WPF 기반 데스크톱 유틸리티 프로그램입니다.
 
 ## ✨ 주요 기능
 
-- **안전한 설정 변경**: 정규표현식을 사용해 `GameSettings.ini` 파일의 `DataCenterHint` 값만 정확히 치환합니다. 기존 그래픽, 조작 설정이 보존되며, 변경 전 자동으로 `*.bak` 백업 파일을 생성합니다.
+- **안전한 서버 및 설정 변경**: 정규표현식을 사용해 `GameSettings.ini` 파일의 설정값(`DataCenterHint` 등)만 정확히 치환합니다. 기존 그래픽, 조작 설정이 보존되며, 변경 전 자동으로 `*.bak` 백업 파일을 생성합니다.
 - **다중 계정 자동 감지**: 로컬 PC에 존재하는 모든 레식 계정(UUID 폴더)을 자동으로 탐색하여 손쉽게 선택하거나 모든 계정에 일괄 적용할 수 있습니다.
 - **실시간 Ping 측정 (TCP Ping)**: 각 리전별 AWS EC2 엔드포인트(Port 443)를 활용하여 게임 서버와 유사한 지연 시간(Ping)을 실시간으로 측정하여 표시합니다.
 - **직관적인 모던 UI**: WPF-UI 프레임워크를 활용해 Windows 11 스타일의 미려한 다크 테마(Mica Backdrop)를 제공합니다.
@@ -23,12 +23,12 @@ Visual Studio 2022 환경에서 열거나, `.NET 8 SDK`가 설치된 터미널(C
 
 ```powershell
 # 프로젝트 폴더로 이동
-cd R6ServerChanger
+cd R6Tools
 
 # 단일 실행 파일(Self-Contained) 빌드
 dotnet publish -c Release -r win-x64 --self-contained true
 ```
-> 빌드 완료 후 실행 파일 경로: `bin\Release\net8.0-windows\win-x64\publish\R6ServerChanger.exe`
+> 빌드 완료 후 실행 파일 경로: `bin\Release\net8.0-windows\win-x64\publish\R6Tools.exe`
 
 ## 📋 기술 스택
 

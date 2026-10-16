@@ -1,12 +1,12 @@
-<ui:FluentWindow x:Class="R6ServerChanger.Views.MainWindow"
+<ui:FluentWindow x:Class="R6Tools.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-        xmlns:viewmodels="clr-namespace:R6ServerChanger.ViewModels"
+        xmlns:viewmodels="clr-namespace:R6Tools.ViewModels"
         mc:Ignorable="d"
-        Title="Rainbow Six Siege Server Changer" Height="550" Width="450"
+        Title="Rainbow Six Siege Tools" Height="550" Width="450"
         WindowStartupLocation="CenterScreen"
         ExtendsContentIntoTitleBar="True"
         WindowBackdropType="Mica">
@@ -27,7 +27,7 @@
         </Grid.RowDefinitions>
 
         <!-- TitleBar -->
-        <ui:TitleBar Title="R6 Server Changer" Grid.Row="0">
+        <ui:TitleBar Title="R6 Tools" Grid.Row="0">
             <ui:TitleBar.Header>
                 <Grid>
                     <Grid.ColumnDefinitions>

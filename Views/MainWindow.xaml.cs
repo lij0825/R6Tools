@@ -1,7 +1,7 @@
 using System;
 using Wpf.Ui.Controls;
 
-namespace R6ServerChanger.Views
+namespace R6Tools.Views
 {
     public partial class MainWindow : FluentWindow
     {
