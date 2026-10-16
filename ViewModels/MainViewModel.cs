@@ -81,7 +81,10 @@ namespace R6Tools.ViewModels
 		private bool isBackupTab = false;
 
 		[ObservableProperty]
-		private bool isToolsTab = false;
+		private bool isReplayTab = false;
+
+		[ObservableProperty]
+		private bool isCacheTab = false;
 
 		[ObservableProperty]
 		private string primaryCtaText = "서버 변경하기";
@@ -241,20 +244,25 @@ namespace R6Tools.ViewModels
 			IsServerTab = value == 0;
 			IsMultiplierTab = value == 1;
 			IsBackupTab = value == 2;
-			IsToolsTab = value == 3;
+			IsReplayTab = value == 3;
+			IsCacheTab = value == 4;
 
 			PrimaryCtaText = value switch
 			{
 				0 => "서버 변경하기",
 				1 => "감도 및 디스플레이 설정 저장",
 				2 => "기준 계정 설정 동기화하기",
-				3 => "선택한 캐시 파일 안전 정리",
+				3 => "선택 리플레이 영구 보관소로 백업",
+				4 => "선택한 캐시 파일 안전 정리",
 				_ => "적용하기"
 			};
 
 			if (value == 3)
 			{
 				LoadReplays();
+			}
+			else if (value == 4)
+			{
 				_ = ScanAllCachesAsync();
 			}
 		}
@@ -631,6 +639,10 @@ namespace R6Tools.ViewModels
 			else if (SelectedTabIndex == 2)
 			{
 				await SyncSettingsToSelectedAccountsAsync();
+			}
+			else if (SelectedTabIndex == 3)
+			{
+				BackupSelectedReplay();
 			}
 			else
 			{
