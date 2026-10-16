@@ -16,7 +16,7 @@ namespace R6Tools.Services
 
 		public IniParserService()
 		{
-			_backupsDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backups");
+			_backupsDirectory = Path.Combine(AppContext.BaseDirectory, "Backups");
 			if (!Directory.Exists(_backupsDirectory))
 			{
 				Directory.CreateDirectory(_backupsDirectory);

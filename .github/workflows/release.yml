@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       tag_name:
-        description: '배포할 버전 태그 (예: v1.0.0)'
+        description: '배포할 버전 태그 (예: v1.0.2)'
         required: true
-        default: 'v1.0.0'
+        default: 'v1.0.2'
 
 permissions:
   contents: write
@@ -39,5 +39,4 @@ jobs:
           name: R6 Tools ${{ github.event.inputs.tag_name || github.ref_name }}
           files: |
             ./R6Tools-win-x64.zip
-            ./publish/R6Tools.exe
           generate_release_notes: true

@@ -8,8 +8,8 @@
 
 ## 다운로드
 
-[![Download Latest ZIP](https://img.shields.io/badge/Download-R6Tools_무설치_최신버전_(.zip)-0064FF?style=for-the-badge&logo=windows)](https://github.com/lij0825/r6tools/releases/latest/download/R6Tools-win-x64.zip)
-[![GitHub Release](https://img.shields.io/github/v/release/lij0825/r6tools?style=for-the-badge&label=Version)](https://github.com/lij0825/r6tools/releases/latest)
+[![Download Latest ZIP](https://img.shields.io/badge/Download-R6Tools_무설치_최신버전_(.zip)-0064FF?style=for-the-badge&logo=windows)](https://github.com/R6Tools/R6Tools/releases/latest/download/R6Tools-win-x64.zip)
+[![GitHub Release](https://img.shields.io/github/v/release/R6Tools/R6Tools?style=for-the-badge&label=Version)](https://github.com/R6Tools/R6Tools/releases/latest)
 
 > **실행 안내**: 압축 해제 후 `R6Tools.exe`를 실행하세요. 최초 실행 시 Windows SmartScreen('Windows의 PC 보호') 창이 나타나면 **[추가 정보] → [실행]**을 클릭하면 정상 작동합니다.
 
@@ -71,9 +71,9 @@
 Visual Studio 2022 또는 `.NET 8.0 SDK`가 설치된 환경에서 아래 명령어로 단일 실행 파일을 생성할 수 있습니다.
 
 ```powershell
-dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
+dotnet publish -c Release -o ./publish
 ```
-* 빌드 경로: `bin\Release\net8.0-windows\win-x64\publish\`
+* 빌드 경로: `publish\R6Tools.exe`
 
 ---
 

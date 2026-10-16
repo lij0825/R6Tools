@@ -19,7 +19,7 @@ namespace R6Tools.Services
 
 		public AppSettingsService()
 		{
-			_primaryFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "app_settings.json");
+			_primaryFilePath = Path.Combine(AppContext.BaseDirectory, "app_settings.json");
 			string appDataDir = Path.Combine(
 				Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
 				"R6Tools");

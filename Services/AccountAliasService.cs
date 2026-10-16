@@ -11,7 +11,7 @@ namespace R6Tools.Services
 
 		public AccountAliasService()
 		{
-			_filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "account_aliases.json");
+			_filePath = Path.Combine(AppContext.BaseDirectory, "account_aliases.json");
 		}
 
 		public Dictionary<string, string> LoadAliases()
@@ -37,7 +37,10 @@ namespace R6Tools.Services
 
 		public void SaveAlias(string uuid, string alias)
 		{
-			if (string.IsNullOrWhiteSpace(uuid)) return;
+			if (string.IsNullOrWhiteSpace(uuid))
+			{
+				return;
+			}
 
 			var dict = LoadAliases();
 			if (string.IsNullOrWhiteSpace(alias))
