@@ -10,7 +10,7 @@ namespace R6Tools.Services
 		private static ThemeService? _instance;
 		public static ThemeService Instance => _instance ??= new ThemeService();
 
-		public bool IsDarkMode { get; private set; }
+		public bool IsDarkMode { get; private set; } = true;
 
 		public event EventHandler? ThemeChanged;
 

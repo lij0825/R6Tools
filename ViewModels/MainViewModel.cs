@@ -28,16 +28,16 @@ namespace R6Tools.ViewModels
 		private double _loadedMultiplier = 0.02;
 
 		[ObservableProperty]
-		private bool isDarkMode;
+		private bool isDarkMode = true;
 
 		[ObservableProperty]
-		private string themeButtonText = "🌙";
+		private string themeButtonText = "☀️";
 
 		[ObservableProperty]
-		private bool isEnglish;
+		private bool isEnglish = true;
 
 		[ObservableProperty]
-		private string languageButtonText = "EN";
+		private string languageButtonText = "KO";
 
 		[ObservableProperty]
 		private bool isEditingAlias;

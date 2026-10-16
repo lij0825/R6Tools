@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Windows;
 
 namespace R6Tools.Services
@@ -10,7 +9,7 @@ namespace R6Tools.Services
 		private static LocalizationService? _instance;
 		public static LocalizationService Instance => _instance ??= new LocalizationService();
 
-		public string CurrentLanguage { get; private set; } = "ko";
+		public string CurrentLanguage { get; private set; } = "en";
 		public bool IsEnglish => CurrentLanguage == "en";
 
 		public event EventHandler? LanguageChanged;
@@ -210,19 +209,19 @@ namespace R6Tools.Services
 			string savedLang = AppSettingsService.Instance.Settings.Language;
 			if (string.IsNullOrWhiteSpace(savedLang))
 			{
-				savedLang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.ToLowerInvariant() == "en" ? "en" : "ko";
+				savedLang = "en";
 			}
 			SetLanguage(savedLang, saveSettings: false);
 		}
 
 		public void ToggleLanguage()
 		{
-			SetLanguage(CurrentLanguage == "ko" ? "en" : "ko", saveSettings: true);
+			SetLanguage(CurrentLanguage == "en" ? "ko" : "en", saveSettings: true);
 		}
 
 		public void SetLanguage(string lang, bool saveSettings = true)
 		{
-			CurrentLanguage = lang == "en" ? "en" : "ko";
+			CurrentLanguage = lang == "ko" ? "ko" : "en";
 
 			if (saveSettings)
 			{

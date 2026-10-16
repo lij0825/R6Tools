@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using System.IO;
 using System.Text.Json;
 using R6Tools.Models;
@@ -63,12 +62,10 @@ namespace R6Tools.Services
 					// 설정 파일 로드 실패 시 기본값 사용
 				}
 
-				// 기본값 설정 (시스템 환경 기반)
-				string defaultLang = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.ToLowerInvariant() == "en" ? "en" : "ko";
 				Settings = new AppSettings
 				{
-					Language = defaultLang,
-					IsDarkMode = false,
+					Language = "en",
+					IsDarkMode = true,
 					MouseDpi = 800
 				};
 				Save();

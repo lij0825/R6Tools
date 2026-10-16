@@ -6,8 +6,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!-- WPF-UI 라이트 테마 기반 위에 토스 디자인 시스템 토큰 적용 -->
-                <ui:ThemesDictionary Theme="Light" />
+                <!-- WPF-UI 다크 테마 기반 위에 토스 디자인 시스템 토큰 적용 -->
+                <ui:ThemesDictionary Theme="Dark" />
                 <ui:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
 
