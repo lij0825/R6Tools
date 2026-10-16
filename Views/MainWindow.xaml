@@ -8,7 +8,7 @@
 		mc:Ignorable="d"
 		Title="Rainbow Six Siege Tools" 
 		Height="860" Width="580"
-		MinHeight="700" MinWidth="520"
+		MinHeight="700" MinWidth="540"
 		WindowStartupLocation="CenterScreen"
 		ExtendsContentIntoTitleBar="True"
 		WindowBackdropType="None"
@@ -30,6 +30,56 @@
 			<Setter Property="CornerRadius" Value="14" />
 			<Setter Property="Padding" Value="18" />
 			<Setter Property="Margin" Value="0,0,0,12" />
+		</Style>
+
+		<!-- 토스 세그먼트 탭 라디오 버튼 스타일 (큼직한 흰색 카드 하이라이트 + 그림자 + Toss Blue 텍스트) -->
+		<Style x:Key="TossSegmentedTabStyle" TargetType="RadioButton">
+			<Setter Property="HorizontalAlignment" Value="Stretch" />
+			<Setter Property="VerticalAlignment" Value="Stretch" />
+			<Setter Property="HorizontalContentAlignment" Value="Center" />
+			<Setter Property="VerticalContentAlignment" Value="Center" />
+			<Setter Property="Foreground" Value="{StaticResource TossGrey600Brush}" />
+			<Setter Property="FontSize" Value="12.5" />
+			<Setter Property="FontWeight" Value="SemiBold" />
+			<Setter Property="Cursor" Value="Hand" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="RadioButton">
+						<Border x:Name="tabBorder"
+								Background="Transparent"
+								CornerRadius="8"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Stretch"
+								Padding="2,0"
+								Margin="1">
+							<ContentPresenter HorizontalAlignment="Center" 
+											  VerticalAlignment="Center" />
+						</Border>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsChecked" Value="True">
+								<Setter TargetName="tabBorder" Property="Background" Value="{StaticResource TossWhiteBrush}" />
+								<Setter TargetName="tabBorder" Property="BorderBrush" Value="{StaticResource TossGrey200Brush}" />
+								<Setter TargetName="tabBorder" Property="BorderThickness" Value="1" />
+								<Setter TargetName="tabBorder" Property="Effect">
+									<Setter.Value>
+										<DropShadowEffect BlurRadius="5" ShadowDepth="1.5" Direction="270" Color="#191F28" Opacity="0.12" />
+									</Setter.Value>
+								</Setter>
+								<Setter Property="Foreground" Value="{StaticResource TossBlueBrush}" />
+								<Setter Property="FontWeight" Value="Bold" />
+							</Trigger>
+							<MultiTrigger>
+								<MultiTrigger.Conditions>
+									<Condition Property="IsMouseOver" Value="True" />
+									<Condition Property="IsChecked" Value="False" />
+								</MultiTrigger.Conditions>
+								<Setter TargetName="tabBorder" Property="Background" Value="#E9ECEF" />
+								<Setter Property="Foreground" Value="{StaticResource TossGrey900Brush}" />
+							</MultiTrigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
 		</Style>
 
 		<!-- 토스 프라이머리 CTA 버튼 스타일 (50px / TDS radius-l: 14px / 단일 Toss Blue) -->
@@ -183,10 +233,10 @@
 			<Setter Property="Foreground" Value="{StaticResource TossGrey700Brush}" />
 			<Setter Property="FontSize" Value="12" />
 			<Setter Property="FontWeight" Value="SemiBold" />
-			<Setter Property="Height" Value="32" />
-			<Setter Property="Padding" Value="12,0" />
+			<Setter Property="Height" Value="30" />
+			<Setter Property="Padding" Value="10,0" />
 			<Setter Property="Cursor" Value="Hand" />
-			<Setter Property="Margin" Value="0,0,6,6" />
+			<Setter Property="Margin" Value="0,0,4,4" />
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="Button">
@@ -221,8 +271,8 @@
 			<Setter Property="Foreground" Value="{StaticResource TossBlueBrush}" />
 			<Setter Property="FontSize" Value="14" />
 			<Setter Property="FontWeight" Value="Bold" />
-			<Setter Property="Width" Value="36" />
-			<Setter Property="Height" Value="36" />
+			<Setter Property="Width" Value="34" />
+			<Setter Property="Height" Value="34" />
 			<Setter Property="Cursor" Value="Hand" />
 			<Setter Property="Template">
 				<Setter.Value>
@@ -256,10 +306,10 @@
 			<Setter Property="Foreground" Value="{StaticResource TossGrey900Brush}" />
 			<Setter Property="BorderBrush" Value="{StaticResource TossGrey200Brush}" />
 			<Setter Property="BorderThickness" Value="1" />
-			<Setter Property="FontSize" Value="14" />
+			<Setter Property="FontSize" Value="13" />
 			<Setter Property="FontWeight" Value="SemiBold" />
-			<Setter Property="Height" Value="40" />
-			<Setter Property="Padding" Value="12,0" />
+			<Setter Property="Height" Value="38" />
+			<Setter Property="Padding" Value="10,0" />
 			<Setter Property="VerticalContentAlignment" Value="Center" />
 			<Setter Property="HorizontalContentAlignment" Value="Center" />
 			<Setter Property="Template">
@@ -313,8 +363,8 @@
 			</ui:TitleBar.Header>
 		</ui:TitleBar>
 
-		<!-- 2. Header & TDS Segmented Control (5-Tab Switcher: 텍스트 잘림 방지 최적화) -->
-		<StackPanel Grid.Row="1" Margin="20,8,20,12">
+		<!-- 2. Header & TDS Segmented Control (선택된 탭 큼직한 흰색 하이라이트 + 그림자 + 잘림 방지 최적화) -->
+		<StackPanel Grid.Row="1" Margin="16,6,16,10">
 			<!-- Hero Title -->
 			<TextBlock Text="필요한 설정을 한곳에서 편하게 바꿔요" 
 					   FontSize="18" 
@@ -324,13 +374,13 @@
 			<TextBlock Text="서버 변경, 감도 멀티플라이어, 동기화, 리플레이 보관 및 캐시 정리" 
 					   FontSize="12" 
 					   Foreground="{StaticResource TossGrey600Brush}" 
-					   Margin="0,0,0,10" />
+					   Margin="0,0,0,8" />
 
-			<!-- TDS Segmented Control (창 크기 변경 시에도 글씨 안 짤리도록 간결한 라벨 적용) -->
+			<!-- TDS Segmented Control (트랙 전체를 꽉 채우는 큼직한 흰색 카드 하이라이트) -->
 			<Border Background="{StaticResource TossGrey100Brush}" 
 					CornerRadius="10" 
 					Padding="3" 
-					Height="42">
+					Height="44">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
@@ -343,123 +393,53 @@
 					<!-- Tab 0: 서버 -->
 					<RadioButton Grid.Column="0" 
 								 GroupName="TdsTabs"
+								 Content="서버"
 								 IsChecked="{Binding IsServerTab, Mode=TwoWay}"
 								 Command="{Binding SelectTabCommand}" 
 								 CommandParameter="0"
-								 Cursor="Hand">
-						<RadioButton.Template>
-							<ControlTemplate TargetType="RadioButton">
-								<Border x:Name="tabBorder" Background="Transparent" CornerRadius="8" Padding="0">
-									<TextBlock x:Name="tabText" Text="서버" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TossGrey600Brush}" />
-								</Border>
-								<ControlTemplate.Triggers>
-									<Trigger Property="IsChecked" Value="True">
-										<Setter TargetName="tabBorder" Property="Background" Value="{StaticResource TossWhiteBrush}" />
-										<Setter TargetName="tabText" Property="Foreground" Value="{StaticResource TossGrey900Brush}" />
-										<Setter TargetName="tabText" Property="FontWeight" Value="Bold" />
-									</Trigger>
-								</ControlTemplate.Triggers>
-							</ControlTemplate>
-						</RadioButton.Template>
-					</RadioButton>
+								 Style="{StaticResource TossSegmentedTabStyle}" />
 
 					<!-- Tab 1: 감도 · FPS -->
 					<RadioButton Grid.Column="1" 
 								 GroupName="TdsTabs"
+								 Content="감도 · FPS"
 								 IsChecked="{Binding IsMultiplierTab, Mode=TwoWay}"
 								 Command="{Binding SelectTabCommand}" 
 								 CommandParameter="1"
-								 Cursor="Hand">
-						<RadioButton.Template>
-							<ControlTemplate TargetType="RadioButton">
-								<Border x:Name="tabBorder" Background="Transparent" CornerRadius="8" Padding="0">
-									<TextBlock x:Name="tabText" Text="감도 · FPS" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TossGrey600Brush}" />
-								</Border>
-								<ControlTemplate.Triggers>
-									<Trigger Property="IsChecked" Value="True">
-										<Setter TargetName="tabBorder" Property="Background" Value="{StaticResource TossWhiteBrush}" />
-										<Setter TargetName="tabText" Property="Foreground" Value="{StaticResource TossGrey900Brush}" />
-										<Setter TargetName="tabText" Property="FontWeight" Value="Bold" />
-									</Trigger>
-								</ControlTemplate.Triggers>
-							</ControlTemplate>
-						</RadioButton.Template>
-					</RadioButton>
+								 Style="{StaticResource TossSegmentedTabStyle}" />
 
 					<!-- Tab 2: 동기화 -->
 					<RadioButton Grid.Column="2" 
 								 GroupName="TdsTabs"
+								 Content="동기화"
 								 IsChecked="{Binding IsBackupTab, Mode=TwoWay}"
 								 Command="{Binding SelectTabCommand}" 
 								 CommandParameter="2"
-								 Cursor="Hand">
-						<RadioButton.Template>
-							<ControlTemplate TargetType="RadioButton">
-								<Border x:Name="tabBorder" Background="Transparent" CornerRadius="8" Padding="0">
-									<TextBlock x:Name="tabText" Text="동기화" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TossGrey600Brush}" />
-								</Border>
-								<ControlTemplate.Triggers>
-									<Trigger Property="IsChecked" Value="True">
-										<Setter TargetName="tabBorder" Property="Background" Value="{StaticResource TossWhiteBrush}" />
-										<Setter TargetName="tabText" Property="Foreground" Value="{StaticResource TossGrey900Brush}" />
-										<Setter TargetName="tabText" Property="FontWeight" Value="Bold" />
-									</Trigger>
-								</ControlTemplate.Triggers>
-							</ControlTemplate>
-						</RadioButton.Template>
-					</RadioButton>
+								 Style="{StaticResource TossSegmentedTabStyle}" />
 
 					<!-- Tab 3: 리플레이 -->
 					<RadioButton Grid.Column="3" 
 								 GroupName="TdsTabs"
+								 Content="리플레이"
 								 IsChecked="{Binding IsReplayTab, Mode=TwoWay}"
 								 Command="{Binding SelectTabCommand}" 
 								 CommandParameter="3"
-								 Cursor="Hand">
-						<RadioButton.Template>
-							<ControlTemplate TargetType="RadioButton">
-								<Border x:Name="tabBorder" Background="Transparent" CornerRadius="8" Padding="0">
-									<TextBlock x:Name="tabText" Text="리플레이" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TossGrey600Brush}" />
-								</Border>
-								<ControlTemplate.Triggers>
-									<Trigger Property="IsChecked" Value="True">
-										<Setter TargetName="tabBorder" Property="Background" Value="{StaticResource TossWhiteBrush}" />
-										<Setter TargetName="tabText" Property="Foreground" Value="{StaticResource TossGrey900Brush}" />
-										<Setter TargetName="tabText" Property="FontWeight" Value="Bold" />
-									</Trigger>
-								</ControlTemplate.Triggers>
-							</ControlTemplate>
-						</RadioButton.Template>
-					</RadioButton>
+								 Style="{StaticResource TossSegmentedTabStyle}" />
 
 					<!-- Tab 4: 캐시 정리 -->
 					<RadioButton Grid.Column="4" 
 								 GroupName="TdsTabs"
+								 Content="캐시 정리"
 								 IsChecked="{Binding IsCacheTab, Mode=TwoWay}"
 								 Command="{Binding SelectTabCommand}" 
 								 CommandParameter="4"
-								 Cursor="Hand">
-						<RadioButton.Template>
-							<ControlTemplate TargetType="RadioButton">
-								<Border x:Name="tabBorder" Background="Transparent" CornerRadius="8" Padding="0">
-									<TextBlock x:Name="tabText" Text="캐시 정리" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TossGrey600Brush}" />
-								</Border>
-								<ControlTemplate.Triggers>
-									<Trigger Property="IsChecked" Value="True">
-										<Setter TargetName="tabBorder" Property="Background" Value="{StaticResource TossWhiteBrush}" />
-										<Setter TargetName="tabText" Property="Foreground" Value="{StaticResource TossGrey900Brush}" />
-										<Setter TargetName="tabText" Property="FontWeight" Value="Bold" />
-									</Trigger>
-								</ControlTemplate.Triggers>
-							</ControlTemplate>
-						</RadioButton.Template>
-					</RadioButton>
+								 Style="{StaticResource TossSegmentedTabStyle}" />
 				</Grid>
 			</Border>
 		</StackPanel>
 
 		<!-- 3. Scrollable Content Area -->
-		<ScrollViewer Grid.Row="2" Padding="20,0,20,10" VerticalScrollBarVisibility="Auto">
+		<ScrollViewer Grid.Row="2" Padding="16,0,16,10" VerticalScrollBarVisibility="Auto">
 			<StackPanel>
 
 				<!-- Game Running Alert Banner (Phase 4: Safety Lock) -->
@@ -628,21 +608,21 @@
 								</StackPanel>
 							</Border>
 
-							<!-- 마우스 DPI 설정 (기능 연결 완료) -->
+							<!-- 마우스 DPI 설정 (창 축소 시 잘림 방지: 가로 스택 슬림화) -->
 							<Grid Margin="0,0,0,12">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*" />
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
-								<StackPanel Grid.Column="0" VerticalAlignment="Center">
+								<StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0">
 									<TextBlock Text="마우스 하드웨어 DPI" FontWeight="Bold" FontSize="13" Foreground="{StaticResource TossGrey900Brush}" />
-									<TextBlock Text="마우스 전용 소프트웨어의 DPI 설정값" FontSize="11" Foreground="{StaticResource TossGrey500Brush}" />
+									<TextBlock Text="마우스 소프트웨어 설정값" FontSize="11" Foreground="{StaticResource TossGrey500Brush}" />
 								</StackPanel>
 								<StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-									<Button Content="400" Command="{Binding SetDpiCommand}" CommandParameter="400" Style="{StaticResource TossPillChipStyle}" Height="30" Margin="0,0,4,0"/>
-									<Button Content="800" Command="{Binding SetDpiCommand}" CommandParameter="800" Style="{StaticResource TossPillChipStyle}" Height="30" Margin="0,0,4,0"/>
-									<Button Content="1600" Command="{Binding SetDpiCommand}" CommandParameter="1600" Style="{StaticResource TossPillChipStyle}" Height="30" Margin="0,0,6,0"/>
-									<TextBox Text="{Binding MouseDpi, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TossInputStyle}" Width="65" Height="30" FontSize="12" />
+									<Button Content="400" Command="{Binding SetDpiCommand}" CommandParameter="400" Style="{StaticResource TossPillChipStyle}" Height="28"/>
+									<Button Content="800" Command="{Binding SetDpiCommand}" CommandParameter="800" Style="{StaticResource TossPillChipStyle}" Height="28"/>
+									<Button Content="1600" Command="{Binding SetDpiCommand}" CommandParameter="1600" Style="{StaticResource TossPillChipStyle}" Height="28"/>
+									<TextBox Text="{Binding MouseDpi, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TossInputStyle}" Width="60" Height="28" FontSize="11" />
 								</StackPanel>
 							</Grid>
 
@@ -663,7 +643,7 @@
 										<ColumnDefinition Width="Auto" />
 									</Grid.ColumnDefinitions>
 									<Button Grid.Column="0" Content="−" Command="{Binding StepYawCommand}" CommandParameter="-1" Style="{StaticResource TossCompactStepButtonStyle}" />
-									<Slider Grid.Column="1" Minimum="1" Maximum="100" Value="{Binding CurrentYawSensitivity, Mode=TwoWay}" VerticalAlignment="Center" Margin="10,0" />
+									<Slider Grid.Column="1" Minimum="1" Maximum="100" Value="{Binding CurrentYawSensitivity, Mode=TwoWay}" VerticalAlignment="Center" Margin="8,0" />
 									<Button Grid.Column="2" Content="+" Command="{Binding StepYawCommand}" CommandParameter="1" Style="{StaticResource TossCompactStepButtonStyle}" />
 								</Grid>
 							</Grid>
@@ -685,7 +665,7 @@
 										<ColumnDefinition Width="Auto" />
 									</Grid.ColumnDefinitions>
 									<Button Grid.Column="0" Content="−" Command="{Binding StepPitchCommand}" CommandParameter="-1" Style="{StaticResource TossCompactStepButtonStyle}" />
-									<Slider Grid.Column="1" Minimum="1" Maximum="100" Value="{Binding CurrentPitchSensitivity, Mode=TwoWay}" VerticalAlignment="Center" Margin="10,0" />
+									<Slider Grid.Column="1" Minimum="1" Maximum="100" Value="{Binding CurrentPitchSensitivity, Mode=TwoWay}" VerticalAlignment="Center" Margin="8,0" />
 									<Button Grid.Column="2" Content="+" Command="{Binding StepPitchCommand}" CommandParameter="1" Style="{StaticResource TossCompactStepButtonStyle}" />
 								</Grid>
 							</Grid>
@@ -712,15 +692,15 @@
 							<Grid>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="10" />
+									<ColumnDefinition Width="8" />
 									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="10" />
+									<ColumnDefinition Width="8" />
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 								<TextBox Grid.Column="0" Text="{Binding MouseMultiplierText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TossInputStyle}" Height="34" FontSize="12" />
 								<TextBox Grid.Column="2" Text="{Binding XFactorAimingText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TossInputStyle}" Height="34" FontSize="12" />
 								<CheckBox Grid.Column="4" IsChecked="{Binding RawInput, Mode=TwoWay}" VerticalAlignment="Center">
-									<TextBlock Text="원시 입력 (RawInput)" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TossGrey800Brush}" />
+									<TextBlock Text="원시 입력" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TossGrey800Brush}" />
 								</CheckBox>
 							</Grid>
 						</StackPanel>
@@ -748,7 +728,7 @@
 										<ColumnDefinition Width="Auto" />
 									</Grid.ColumnDefinitions>
 									<Button Grid.Column="0" Content="−" Command="{Binding StepAdsScope1xCommand}" CommandParameter="-1" Style="{StaticResource TossCompactStepButtonStyle}" Width="32" Height="32"/>
-									<Slider Grid.Column="1" Minimum="1" Maximum="100" Value="{Binding AdsScope1x, Mode=TwoWay}" VerticalAlignment="Center" Margin="10,0" />
+									<Slider Grid.Column="1" Minimum="1" Maximum="100" Value="{Binding AdsScope1x, Mode=TwoWay}" VerticalAlignment="Center" Margin="8,0" />
 									<Button Grid.Column="2" Content="+" Command="{Binding StepAdsScope1xCommand}" CommandParameter="1" Style="{StaticResource TossCompactStepButtonStyle}" Width="32" Height="32"/>
 								</Grid>
 							</Grid>
@@ -770,7 +750,7 @@
 										<ColumnDefinition Width="Auto" />
 									</Grid.ColumnDefinitions>
 									<Button Grid.Column="0" Content="−" Command="{Binding StepAdsScope2x5Command}" CommandParameter="-1" Style="{StaticResource TossCompactStepButtonStyle}" Width="32" Height="32"/>
-									<Slider Grid.Column="1" Minimum="1" Maximum="100" Value="{Binding AdsScope2x5, Mode=TwoWay}" VerticalAlignment="Center" Margin="10,0" />
+									<Slider Grid.Column="1" Minimum="1" Maximum="100" Value="{Binding AdsScope2x5, Mode=TwoWay}" VerticalAlignment="Center" Margin="8,0" />
 									<Button Grid.Column="2" Content="+" Command="{Binding StepAdsScope2x5Command}" CommandParameter="1" Style="{StaticResource TossCompactStepButtonStyle}" Width="32" Height="32"/>
 								</Grid>
 							</Grid>
@@ -841,10 +821,10 @@
 								</Grid>
 							</Border>
 
-							<!-- 보조 계정 선택 안내 또는 체크박스 목록 (요구사항 5 반영) -->
+							<!-- 보조 계정 선택 안내 또는 체크박스 목록 -->
 							<TextBlock Text="동기화를 적용할 보조 계정 선택:" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TossGrey800Brush}" Margin="0,0,0,6" />
 
-							<!-- 보조 계정이 없을 때 안내 메시지 (요구사항 5) -->
+							<!-- 보조 계정이 없을 때 안내 메시지 -->
 							<Border Background="{StaticResource TossGrey100Brush}" 
 									CornerRadius="8" 
 									Padding="14,10" 
@@ -878,7 +858,7 @@
 						</StackPanel>
 					</Border>
 
-					<!-- 카드 2: 설정 프리셋 백업 & 복원 (기능 연결 및 컴팩트화) -->
+					<!-- 카드 2: 설정 프리셋 백업 & 복원 (2x2 그리드로 버튼 텍스트 잘림 방지) -->
 					<Border Style="{StaticResource TossCardBorder}">
 						<StackPanel>
 							<Grid Margin="0,0,0,2">
@@ -901,20 +881,22 @@
 							<!-- 프리셋 목록 & 조작 버튼 -->
 							<ComboBox ItemsSource="{Binding Presets}" SelectedItem="{Binding SelectedPreset}" DisplayMemberPath="Name" HorizontalAlignment="Stretch" Height="38" Margin="0,0,0,8" />
 
+							<!-- 2x2 버튼 그리드로 창 축소 시에도 텍스트 잘림 원천 방지 -->
 							<Grid Margin="0,0,0,6">
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto"/>
+									<RowDefinition Height="Auto"/>
+								</Grid.RowDefinitions>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*" />
 									<ColumnDefinition Width="6" />
 									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="6" />
-									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="6" />
-									<ColumnDefinition Width="*" />
 								</Grid.ColumnDefinitions>
-								<Button Grid.Column="0" Content="설정 복원" Command="{Binding RestorePresetCommand}" IsEnabled="{Binding CanModifySettings}" Style="{StaticResource TossSecondaryButtonStyle}" Height="34" FontSize="12" />
-								<Button Grid.Column="2" Content="차이 비교" Command="{Binding ComparePresetCommand}" Style="{StaticResource TossSmallButtonStyle}" Height="34" FontSize="12" />
-								<Button Grid.Column="4" Content="내보내기" Command="{Binding ExportPresetCommand}" Style="{StaticResource TossSmallButtonStyle}" Height="34" FontSize="12" />
-								<Button Grid.Column="6" Content="삭제" Command="{Binding DeletePresetCommand}" Style="{StaticResource TossSmallButtonStyle}" Height="34" FontSize="12" />
+
+								<Button Grid.Row="0" Grid.Column="0" Content="설정 복원" Command="{Binding RestorePresetCommand}" IsEnabled="{Binding CanModifySettings}" Style="{StaticResource TossSecondaryButtonStyle}" Height="36" Margin="0,0,0,6" />
+								<Button Grid.Row="0" Grid.Column="2" Content="차이 비교" Command="{Binding ComparePresetCommand}" Style="{StaticResource TossSmallButtonStyle}" Height="36" Margin="0,0,0,6" />
+								<Button Grid.Row="1" Grid.Column="0" Content="외부 내보내기" Command="{Binding ExportPresetCommand}" Style="{StaticResource TossSmallButtonStyle}" Height="36" />
+								<Button Grid.Row="1" Grid.Column="2" Content="프리셋 삭제" Command="{Binding DeletePresetCommand}" Style="{StaticResource TossSmallButtonStyle}" Height="36" />
 							</Grid>
 
 							<Button Content="외부 프리셋 파일(.json / .ini) 불러오기" Command="{Binding ImportPresetCommand}" Style="{StaticResource TossSmallButtonStyle}" HorizontalAlignment="Stretch" Height="32" FontSize="12" />
@@ -950,7 +932,7 @@
 				<!-- ================= TAB 3: 리플레이 보관소 섹션 ================= -->
 				<StackPanel Visibility="{Binding IsReplayTab, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-					<!-- 컴팩트 리플레이 안내 가이드 (요구사항 4 & 7 통합) -->
+					<!-- 컴팩트 리플레이 안내 가이드 -->
 					<Border Background="{StaticResource TossBlueWeakBrush}" BorderBrush="{StaticResource TossBlueBrush}" BorderThickness="1" CornerRadius="10" Padding="14,12" Margin="0,0,0,12">
 						<StackPanel>
 							<Grid Margin="0,0,0,4">
@@ -1013,20 +995,18 @@
 
 				</StackPanel>
 
-				<!-- ================= TAB 4: 캐시 정리 섹션 (단 1개 통합 카드 / 요구사항 6, 7, 8 반영) ================= -->
+				<!-- ================= TAB 4: 캐시 정리 섹션 (단 1개 통합 카드) ================= -->
 				<StackPanel Visibility="{Binding IsCacheTab, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-					<!-- 캐시 정리 단일 통합 카드 -->
 					<Border Style="{StaticResource TossCardBorder}">
 						<StackPanel>
-							<!-- 상단 헤더 & 눈에 띄는 아웃라인 재스캔 버튼 (요구사항 6 반영) -->
+							<!-- 상단 헤더 & 아웃라인 재스캔 버튼 -->
 							<Grid Margin="0,0,0,6">
 								<StackPanel VerticalAlignment="Center">
 									<TextBlock Text="DirectX 셰이더 및 런처 캐시 정리" FontWeight="Bold" FontSize="15" Foreground="{StaticResource TossGrey900Brush}" />
 									<TextBlock Text="스터터링(프레임 드랍) 및 클라우드 동기화 오류를 해결해요." FontSize="12" Foreground="{StaticResource TossGrey500Brush}" Margin="0,1,0,0"/>
 								</StackPanel>
 
-								<!-- 눈에 확 띄는 흰색+블루 보더 아웃라인 재스캔 버튼 (배경에 묻히지 않음) -->
 								<Button Content="🔄 캐시 다시 스캔" 
 										Command="{Binding ScanAllCachesCommand}" 
 										Style="{StaticResource TossOutlineButtonStyle}" 
@@ -1069,7 +1049,7 @@
 								</ItemsControl>
 							</Border>
 
-							<!-- 명확한 삭제 액션 버튼 (요구사항 8 반영: 무엇을 하는 버튼인지 직관적으로 전달) -->
+							<!-- 명확한 삭제 액션 버튼 -->
 							<Button Content="{Binding CleanCacheButtonText}" 
 									Command="{Binding CleanSelectedCachesCommand}" 
 									IsEnabled="{Binding CanModifySettings}"
@@ -1089,7 +1069,7 @@
 				Background="{StaticResource TossWhiteBrush}" 
 				BorderBrush="{StaticResource TossGrey200Brush}" 
 				BorderThickness="0,1,0,0" 
-				Padding="20,10,20,14">
+				Padding="16,10,16,14">
 			<StackPanel>
 				<TextBlock Text="{Binding StatusMessage}" 
 						   FontSize="12" 
