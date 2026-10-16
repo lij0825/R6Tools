@@ -1,0 +1,43 @@
+name: Auto Release R6Tools
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: '배포할 버전 태그 (예: v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Publish Single EXE
+        run: dotnet publish R6Tools.csproj -c Release -o ./publish
+
+      - name: Compress to Fixed Name ZIP
+        run: Compress-Archive -Path ./publish/R6Tools.exe -DestinationPath ./R6Tools-win-x64.zip
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag_name || github.ref_name }}
+          name: R6 Tools ${{ github.event.inputs.tag_name || github.ref_name }}
+          files: |
+            ./R6Tools-win-x64.zip
+            ./publish/R6Tools.exe
+          generate_release_notes: true
