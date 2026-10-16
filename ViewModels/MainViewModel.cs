@@ -23,8 +23,25 @@ namespace R6Tools.ViewModels
 		private readonly SensitivityCalculatorService _sensCalculator;
 		private readonly ReplayManagerService _replayService;
 		private readonly CacheCleanerService _cacheCleanerService;
+		private readonly LocalizationService _loc = LocalizationService.Instance;
+		private readonly ThemeService _theme = ThemeService.Instance;
 
 		private double _loadedMultiplier = 0.02;
+
+		[ObservableProperty]
+		private bool isDarkMode;
+
+		[ObservableProperty]
+		private string themeButtonText = "🌙";
+
+		[ObservableProperty]
+		private bool isEnglish;
+
+		[ObservableProperty]
+		private string languageButtonText = "EN";
+
+		[ObservableProperty]
+		private bool isEditingAlias;
 
 		[ObservableProperty]
 		private ObservableCollection<UserAccount> accounts = new();
@@ -256,15 +273,7 @@ namespace R6Tools.ViewModels
 			IsReplayTab = value == 3;
 			IsCacheTab = value == 4;
 
-			PrimaryCtaText = value switch
-			{
-				0 => "서버 변경하기",
-				1 => "감도 및 디스플레이 설정 저장",
-				2 => "기준 계정 설정 동기화하기",
-				3 => "선택 리플레이 영구 보관소로 백업",
-				4 => "선택한 캐시 파일 안전 정리",
-				_ => "적용하기"
-			};
+			UpdateLocalizedTexts();
 
 			if (value == 3)
 			{
@@ -273,6 +282,29 @@ namespace R6Tools.ViewModels
 			else if (value == 4)
 			{
 				_ = ScanAllCachesAsync();
+			}
+		}
+
+		private void UpdateLocalizedTexts()
+		{
+			PrimaryCtaText = SelectedTabIndex switch
+			{
+				0 => _loc.GetString("Str_CtaServer"),
+				1 => _loc.GetString("Str_CtaSens"),
+				2 => _loc.GetString("Str_CtaSync"),
+				3 => _loc.GetString("Str_CtaReplay"),
+				4 => _loc.GetString("Str_CtaCache"),
+				_ => _loc.GetString("Str_CtaServer")
+			};
+
+			if (CacheTargets.Count > 0)
+			{
+				long totalBytes = CacheTargets.Where(c => c.IsSelected && c.IsExists).Sum(c => c.SizeBytes);
+				CleanCacheButtonText = totalBytes > 0
+					? (_loc.IsEnglish
+						? $"Delete Selected Cache ({TotalScannedCacheFormatted})"
+						: $"선택한 캐시 파일 삭제하고 용량 확보하기 ({TotalScannedCacheFormatted})")
+					: (_loc.IsEnglish ? "No Cache Files to Clean (0 B)" : "정리할 캐시 파일이 없습니다 (0 B)");
 			}
 		}
 
@@ -349,6 +381,12 @@ namespace R6Tools.ViewModels
 			RecalculateCm360();
 
 			MatchReplayPath = _replayService.DetectMatchReplayPath();
+
+			IsDarkMode = _theme.IsDarkMode;
+			ThemeButtonText = IsDarkMode ? "☀️" : "🌙";
+			IsEnglish = _loc.IsEnglish;
+			LanguageButtonText = IsEnglish ? "KO" : "EN";
+			UpdateLocalizedTexts();
 
 			_ = RefreshDataAsync();
 			_ = MonitorGameProcessAsync();
@@ -645,6 +683,39 @@ namespace R6Tools.ViewModels
 		}
 
 		[RelayCommand]
+		private void ToggleTheme()
+		{
+			_theme.ToggleTheme();
+			IsDarkMode = _theme.IsDarkMode;
+			ThemeButtonText = IsDarkMode ? "☀️" : "🌙";
+		}
+
+		[RelayCommand]
+		private void ToggleLanguage()
+		{
+			_loc.ToggleLanguage();
+			IsEnglish = _loc.IsEnglish;
+			LanguageButtonText = IsEnglish ? "KO" : "EN";
+			UpdateLocalizedTexts();
+		}
+
+		[RelayCommand]
+		private void ToggleEditAlias()
+		{
+			IsEditingAlias = !IsEditingAlias;
+		}
+
+		[RelayCommand]
+		private void CancelEditAlias()
+		{
+			IsEditingAlias = false;
+			if (SelectedAccount != null)
+			{
+				AccountAliasInput = SelectedAccount.Alias;
+			}
+		}
+
+		[RelayCommand]
 		private void SaveAccountAlias()
 		{
 			if (SelectedAccount == null) return;
@@ -652,10 +723,11 @@ namespace R6Tools.ViewModels
 			string trimmedAlias = AccountAliasInput.Trim();
 			SelectedAccount.Alias = trimmedAlias;
 			_aliasService.SaveAlias(SelectedAccount.Uuid, trimmedAlias);
+			IsEditingAlias = false;
 
 			StatusMessage = string.IsNullOrWhiteSpace(trimmedAlias)
-				? "계정 별칭을 초기화했어요."
-				: $"계정 별칭을 '{trimmedAlias}'(으)로 저장했어요.";
+				? (_loc.IsEnglish ? "Reset account alias." : "계정 별칭을 초기화했어요.")
+				: (_loc.IsEnglish ? $"Saved account alias as '{trimmedAlias}'." : $"계정 별칭을 '{trimmedAlias}'(으)로 저장했어요.");
 		}
 
 		[RelayCommand]
