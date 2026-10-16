@@ -12,6 +12,8 @@ namespace R6Tools.Services
 	{
 		private readonly string _backupsDirectory;
 
+		public string BackupsDirectory => _backupsDirectory;
+
 		public IniParserService()
 		{
 			_backupsDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backups");

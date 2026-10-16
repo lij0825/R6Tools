@@ -224,6 +224,15 @@ namespace R6Tools.ViewModels
 		[ObservableProperty]
 		private bool isScanningCaches;
 
+		[ObservableProperty]
+		private bool hasSyncTargets;
+
+		[ObservableProperty]
+		private bool hasNoSyncTargets = true;
+
+		[ObservableProperty]
+		private string cleanCacheButtonText = "선택한 캐시 파일 삭제하고 용량 확보하기 (0 B)";
+
 		partial void OnIsGameRunningChanged(bool value)
 		{
 			CanModifySettings = !value;
@@ -385,6 +394,8 @@ namespace R6Tools.ViewModels
 					SyncTargetAccounts.Add(acc);
 				}
 			}
+			HasSyncTargets = SyncTargetAccounts.Count > 0;
+			HasNoSyncTargets = SyncTargetAccounts.Count == 0;
 		}
 
 		private void LoadSettingsForAccount(UserAccount account)
@@ -500,6 +511,34 @@ namespace R6Tools.ViewModels
 		private void DismissSuggestedSensitivity()
 		{
 			HasConversionSuggestion = false;
+		}
+
+		[RelayCommand]
+		private void SetDpi(string dpiStr)
+		{
+			if (int.TryParse(dpiStr, out int dpi) && dpi > 0)
+			{
+				MouseDpi = dpi;
+				StatusMessage = $"마우스 DPI를 {dpi}(으)로 변경했어요.";
+			}
+		}
+
+		[RelayCommand]
+		private void StepYaw(string stepStr)
+		{
+			if (int.TryParse(stepStr, out int step))
+			{
+				CurrentYawSensitivity = Math.Clamp(CurrentYawSensitivity + step, 1, 100);
+			}
+		}
+
+		[RelayCommand]
+		private void StepPitch(string stepStr)
+		{
+			if (int.TryParse(stepStr, out int step))
+			{
+				CurrentPitchSensitivity = Math.Clamp(CurrentPitchSensitivity + step, 1, 100);
+			}
 		}
 
 		[RelayCommand]
@@ -1010,6 +1049,76 @@ namespace R6Tools.ViewModels
 			}
 		}
 
+		[RelayCommand]
+		private void SavePreset()
+		{
+			SaveCurrentAsPreset();
+		}
+
+		[RelayCommand]
+		private void ExportPreset()
+		{
+			if (SelectedPreset == null)
+			{
+				MessageBox.Show("내보낼 프리셋을 선택하세요.", "안내", MessageBoxButton.OK, MessageBoxImage.Information);
+				return;
+			}
+
+			try
+			{
+				var sfd = new Microsoft.Win32.SaveFileDialog
+				{
+					FileName = $"{SelectedPreset.Name}.json",
+					Filter = "JSON Preset (*.json)|*.json|INI Files (*.ini)|*.ini|All Files (*.*)|*.*",
+					Title = "설정 프리셋 내보내기"
+				};
+
+				if (sfd.ShowDialog() == true)
+				{
+					File.Copy(SelectedPreset.FilePath, sfd.FileName, true);
+					StatusMessage = $"프리셋을 '{Path.GetFileName(sfd.FileName)}' 파일로 내보냈어요.";
+					MessageBox.Show("프리셋 파일을 성공적으로 내보냈습니다.", "완료", MessageBoxButton.OK, MessageBoxImage.Information);
+				}
+			}
+			catch (Exception ex)
+			{
+				StatusMessage = "프리셋 내보내기 실패: " + ex.Message;
+				MessageBox.Show($"내보내기 중 오류가 발생했습니다: {ex.Message}", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+		}
+
+		[RelayCommand]
+		private void ImportPreset()
+		{
+			try
+			{
+				var ofd = new Microsoft.Win32.OpenFileDialog
+				{
+					Filter = "Supported Presets (*.json;*.ini)|*.json;*.ini|All Files (*.*)|*.*",
+					Title = "외부 프리셋 불러오기"
+				};
+
+				if (ofd.ShowDialog() == true)
+				{
+					string presetDir = _iniParser.BackupsDirectory;
+					Directory.CreateDirectory(presetDir);
+					string destName = Path.GetFileName(ofd.FileName);
+					string destPath = Path.Combine(presetDir, destName);
+
+					File.Copy(ofd.FileName, destPath, true);
+					LoadPresets();
+					SelectedPreset = Presets.FirstOrDefault(p => p.FilePath == destPath);
+					StatusMessage = $"외부 프리셋 '{destName}'을(를) 등록했어요.";
+					MessageBox.Show("프리셋 파일을 성공적으로 불러왔습니다.", "완료", MessageBoxButton.OK, MessageBoxImage.Information);
+				}
+			}
+			catch (Exception ex)
+			{
+				StatusMessage = "프리셋 불러오기 실패: " + ex.Message;
+				MessageBox.Show($"불러오기 중 오류가 발생했습니다: {ex.Message}", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+		}
+
 		#region Multiplier Preset Commands
 		[RelayCommand]
 		private void SetDefaultMultiplier()
@@ -1017,6 +1126,14 @@ namespace R6Tools.ViewModels
 			MouseMultiplierText = "0.020000";
 			XFactorAimingText = "0.020000";
 			UpdateMultiplierHelp();
+		}
+
+		[RelayCommand]
+		private void SetPrecisionMultiplier()
+		{
+			MouseMultiplierText = "0.002230";
+			UpdateMultiplierHelp();
+			StatusMessage = "프로 표준 정밀 멀티플라이어(0.002230)를 적용했어요.";
 		}
 
 		[RelayCommand]
@@ -1220,6 +1337,9 @@ namespace R6Tools.ViewModels
 			}
 
 			TotalScannedCacheFormatted = MatchReplayItem.FormatFileSize(totalBytes);
+			CleanCacheButtonText = totalBytes > 0
+				? $"선택한 캐시 파일 삭제하고 용량 확보하기 ({TotalScannedCacheFormatted})"
+				: "정리할 캐시 파일이 없습니다 (0 B)";
 			IsScanningCaches = false;
 			StatusMessage = $"캐시 스캔 완료: 정리 가능한 총 용량 {TotalScannedCacheFormatted}";
 		}
