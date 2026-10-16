@@ -1,57 +1,78 @@
 # Rainbow Six Siege Tools (R6 Tools) 🎯
 
-Rainbow Six Siege(레인보우 식스 시즈)의 데이터센터(서버) 변경 및 설정(멀티플라이어 등)을 빠르고 안전하게 관리할 수 있는 C# WPF 기반 데스크톱 유틸리티 프로그램입니다.
-
-## ✨ 주요 기능
-
-- **안전한 서버 및 설정 변경**: 정규표현식을 사용해 `GameSettings.ini` 파일의 설정값(`DataCenterHint` 등)만 정확히 치환합니다. 기존 그래픽, 조작 설정이 보존되며, 변경 전 자동으로 `*.bak` 백업 파일을 생성합니다.
-- **다중 계정 자동 감지**: 로컬 PC에 존재하는 모든 레식 계정(UUID 폴더)을 자동으로 탐색하여 손쉽게 선택하거나 모든 계정에 일괄 적용할 수 있습니다.
-- **실시간 Ping 측정 (TCP Ping)**: 각 리전별 AWS EC2 엔드포인트(Port 443)를 활용하여 게임 서버와 유사한 지연 시간(Ping)을 실시간으로 측정하여 표시합니다.
-- **직관적인 모던 UI**: WPF-UI 프레임워크를 활용해 Windows 11 스타일의 미려한 다크 테마(Mica Backdrop)를 제공합니다.
-- **안전장치 내장**: 현재 `RainbowSix.exe` 등 게임이 실행 중인지 주기적으로 모니터링하여 즉각적인 경고 알림을 제공합니다.
-
-## 🚀 다운로드 및 실행
-
-이 프로그램은 `.NET 8.0` 기반으로 작성되었습니다.
-단일 실행 파일(.exe) 옵션으로 배포 시, .NET 런타임 설치 없이 단독으로 실행 가능합니다.
-
-*(프로젝트의 `Releases` 메뉴에서 빌드된 실행 파일을 다운로드하거나 직접 컴파일하여 사용하세요.)*
-
-## 🛠 직접 빌드하는 방법
-
-Visual Studio 2022 환경에서 열거나, `.NET 8 SDK`가 설치된 터미널(CLI)에서 다음 명령어를 통해 단일 실행 파일(Self-Contained)로 빌드할 수 있습니다.
-
-```powershell
-# 프로젝트 폴더로 이동
-cd R6Tools
-
-# 단일 실행 파일(Self-Contained) 빌드
-dotnet publish -c Release -r win-x64 --self-contained true
-```
-> 빌드 완료 후 실행 파일 경로: `bin\Release\net8.0-windows\win-x64\publish\R6Tools.exe`
-
-## 📋 기술 스택
-
-- **Language**: C# 12
-- **Framework**: .NET 8.0 (Windows Presentation Foundation)
-- **Architecture**: MVVM (Model-View-ViewModel)
-- **Libraries**:
-  - `CommunityToolkit.Mvvm`
-  - `WPF-UI`
-
-## 🌍 지원되는 데이터센터 목록
-
-- 기본값 (자동 접속 - 최저 Ping 서버 자동 연결)
-- 일본 서부 (`playfab/japanwest`)
-- 동남아시아 (`playfab/southeastasia`)
-- 동아시아 (`playfab/eastasia`)
-- 미국 서부 (`playfab/westus`)
-- 미국 중부 (`playfab/centralus`)
-- 미국 동부 (`playfab/eastus`)
-- 서유럽 (`playfab/westeurope`)
-- 북유럽 (`playfab/northeurope`)
-- 호주 동남부 (`playfab/australiasoutheast`)
-- 브라질 남부 (`playfab/brazilsouth`)
+> **토스 디자인 시스템(TDS)** 기반의 미려한 UI와 안티치트(BattlEye) 100% 안전성을 보장하는 레인보우 식스 시즈 전문 설정 관리 및 최적화 유틸리티입니다.
 
 ---
-*면책 조항: 본 유틸리티는 Ubisoft 공식 소프트웨어가 아니며 개인의 편의를 위해 제작된 팬 메이드 오픈소스 프로그램입니다.*
+
+## 🌟 주요 핵심 기능
+
+### 1. 🌐 데이터센터(서버) 원클릭 변경 및 실시간 Ping 측정
+* **11개 글로벌 데이터센터 지원**: 일본, 동남아, 동아시아, 미국(서부/중부/동부), 유럽(서부/북부), 브라질, 호주 등.
+* **실시간 TCP Ping**: 각 리전별 AWS 엔드포인트(Port 443) 통신을 통해 실제 인게임 환경과 유사한 네트워크 지연 시간을 측정하여 표시합니다.
+* **다계정 일괄 적용**: 로컬 PC에 존재하는 모든 UUID 계정에 서버 설정을 원클릭으로 일괄 동기화할 수 있습니다.
+
+### 2. 👥 다계정(UUID) 별칭 관리 및 원클릭 동기화
+* **계정 별칭(Alias) 영구 저장**: 복잡한 32자리 UUID 폴더명 대신 "본계정", "부계정1" 등 직관적인 별칭을 부여하고 영구 저장합니다.
+* **섹션별 정밀 동기화**: 조작/감도(`INPUT`), 조준기 색상(`CUSTOM_COLORS`), 디스플레이(`DISPLAY`), 오디오(`AUDIO`), 그래픽(`HARDWARE_INFO`) 중 원하는 항목만 선택하여 다른 서브 계정들에 복제/병합합니다.
+* **안전 자동 백업**: 동기화 실행 전 대상 계정의 `GameSettings.ini`를 자동으로 `.bak` 백업합니다.
+
+### 3. 💾 시즌 패치 대비 프리셋 백업/복원 및 설정 Diff 시각화
+* **프리셋 보관함**: 대규모 시즌 패치 전 현재 설정을 이름별로 안전하게 백업 및 즉시 복원합니다.
+* **키-값 단위 정밀 Diff**: 백업본과 현재 INI 파일 간의 변경된 세부 설정값을 실시간으로 비교하고 시각화합니다.
+* **`ReadOnly` 안전 제어**: 읽기 전용 보호가 켜져 있어도 프로그램이 설정을 저장할 때 일시 해제 후 다시 보호를 복구하는 안전 로직을 내장했습니다.
+
+### 4. 📐 물리 $cm/360^\circ$ 계산기 및 멀티플라이어 감도 자동 환산기
+* **실시간 $cm/360^\circ$ 계산**: 마우스 DPI, 인게임 감도, 멀티플라이어를 연동하여 360도 회전에 필요한 실제 물리 이동 거리(cm 및 inch)와 eDPI를 실시간 산출합니다.
+* **감도 자동 환산 엔진**: 멀티플라이어 단위(기본 `0.02` $\rightarrow$ 프로 표준 `0.00223` 또는 `0.001`)를 변경할 때, 기존의 실제 체감 감도를 오차 없이 유지할 수 있는 새로운 인게임 수평/수직 감도를 자동 계산해 원클릭으로 제안합니다.
+
+### 5. 🖥️ 디스플레이 프레임 제한(`FPSLimit`) 및 1:1 조준 감도(`XFactorAiming`)
+* **G-Sync / Reflex 최적화 프리셋**: 144Hz(141 FPS), 165Hz(157 FPS), 240Hz(237 FPS), 360Hz(357 FPS) 등 인풋랙을 최소화하는 최적 프레임 제한 프리셋을 제공합니다.
+* **1:1 조준 감도 매칭**: `XFactorAiming`을 `0.083333`으로 조정하여 지향사격과 1배율 조준 감도를 1:1로 일치시킬 수 있습니다.
+* **배율별 ADS 감도 미세 조정**: 표준 ADS, 1x 무배율, 2.5x 배율경(ACOG) 감도를 각각 스텝퍼로 정밀 제어합니다.
+* **로케일 안전성 보장**: `CultureInfo.InvariantCulture`를 강제하여 윈도우 언어 설정에 관계없이 소수점(`.`)이 정상 기록됩니다.
+
+### 6. 🔒 프로세스 감지 기반 실시간 안전 잠금 및 런처 바로 실행
+* **BattlEye 안티치트 100% 안전**: 메모리 주입이나 후킹을 일체 사용하지 않는 비침습적 정적 파일 제어 방식입니다.
+* **실시간 충돌 방지 잠금**: `RainbowSix.exe`, `RainbowSix_BE.exe`, `RainbowSix_Vulkan.exe` 프로세스 실행 중에는 설정 파일 수정이 자동으로 잠겨 파일 유실 및 게임 크래시를 방지합니다.
+* **원클릭 퀵 런처**: 설정 저장 후 Steam(`steam://rungameid/359550`) 또는 Ubisoft Connect(`uplay://launch/635/0`) 프로토콜을 통해 즉시 게임을 실행할 수 있습니다.
+
+### 7. 🎬 매치 리플레이 영구 보관소 및 DirectX/런처 캐시 원클릭 정리
+* **12경기 제한 방어 영구 보관소**: 인게임 12경기 제한이나 대규모 패치로 삭제되는 매치 리플레이 폴더를 별도 영구 보관소로 백업하고, 필요 시 다시 인게임으로 복원합니다.
+* **DirectX & 런처 캐시 원클릭 정리**: 프레임 드랍 및 스터터링(Stuttering)을 유발하는 DirectX 컴파일 셰이더 캐시(`D3DSCache`, `DXCache`)와 유비소프트 클라우드 동기화 큐(`spool`)를 용량 계산 후 안전하게 비워 디스크 공간을 확보하고 렉을 해결합니다.
+
+---
+
+## 🚀 다운로드 및 실행 방법
+
+### 사전 요구사항
+* **운영체제**: Windows 10 (1809 이상) 또는 Windows 11 (x64)
+* **단일 실행 파일(.exe)**: 별도의 .NET 런타임 설치 없이 단독 실행 가능합니다.
+
+### 빌드 및 배포
+Visual Studio 2022 또는 `.NET 8 SDK`가 설치된 환경에서 다음 명령어로 단일 실행 파일(Self-Contained)을 생성할 수 있습니다:
+
+```powershell
+# 프로젝트 폴더에서 실행
+dotnet publish -c Release -r win-x64 --self-contained true
+```
+> 빌드 산출물: `bin\Release\net8.0-windows\win-x64\publish\R6Tools.exe`
+
+---
+
+## 🛠 기술 스택 및 아키텍처
+
+* **Language**: C# 12
+* **Framework**: .NET 8.0 WPF (Windows Presentation Foundation)
+* **Design System**: Toss Design System (TDS) 스타일 컴포넌트 & 컬러 토큰
+* **UI Framework**: `WPF-UI 3.0` (Fluent Design, Mica Backdrop 지원)
+* **MVVM Architecture**: `CommunityToolkit.Mvvm 8.2` (소스 생성기 기반 반응형 바인딩)
+* **Encoding & Formatting**: UTF-8, Unix-style LF, InvariantCulture 강제
+
+---
+
+## 🛡️ 안전성 및 보안 가이드라인
+* 본 프로그램은 게임 클라이언트 메모리에 접근하거나 DLL을 인젝션하지 않으며, 오버레이 후킹을 사용하지 않습니다.
+* 모든 설정 변경은 사용자의 로컬 문서 폴더(`My Games\Rainbow Six - Siege`) 및 캐시 디렉토리 정적 파일만을 대상으로 하며, 파일 쓰기 전 항상 `.bak` 백업을 수행합니다.
+
+---
+*면책 조항: 본 프로그램은 Ubisoft 공식 소프트웨어가 아니며 개인의 편의를 위해 제작된 오픈소스 유틸리티입니다.*
