@@ -25,7 +25,7 @@ namespace R6Tools.Services
 
 			// Tabs
 			{ "Str_TabServer", "서버" },
-			{ "Str_TabSens", "감도 · FPS" },
+			{ "Str_TabSens", "멀티플라이어" },
 			{ "Str_TabSync", "동기화" },
 			{ "Str_TabReplay", "리플레이" },
 			{ "Str_TabCache", "캐시 정리" },
@@ -46,25 +46,21 @@ namespace R6Tools.Services
 			{ "Str_TestAllPing", "전체 핑 다시 측정하기" },
 			{ "Str_AutoConnectNotice", "💡 자동 접속 모드: 게임 켤 때 핑이 가장 낮은 서버에 알아서 연결돼요." },
 
-			// Tab 1: Sensitivity & FPS
-			{ "Str_SensCard1Title", "마우스 회전 거리 (cm/360°) & 감도" },
+			// Tab 1: Sensitivity Multiplier
+			{ "Str_SensCard1Title", "마우스 회전 거리 (cm/360°) & 감도 멀티플라이어" },
 			{ "Str_Cm360Desc", "360° 1회전 시 필요한 마우스 이동 거리" },
 			{ "Str_SuggestionTitle", "🔄 멀티플라이어 변경 감지 · 체감 감도 유지 추천" },
 			{ "Str_ApplySuggestion", "추천 감도 즉시 반영" },
 			{ "Str_DismissSuggestion", "무시하기" },
 			{ "Str_MouseDpiTitle", "마우스 하드웨어 DPI" },
 			{ "Str_MouseDpiDesc", "마우스 소프트웨어 설정값" },
-			{ "Str_YawSens", "인게임 수평 감도 (Yaw)" },
-			{ "Str_PitchSens", "인게임 수직 감도 (Pitch)" },
-			{ "Str_MultiplierTitle", "감도 멀티플라이어 (Multiplier)" },
+			{ "Str_MultiplierTitle", "감도 멀티플라이어 (MouseSensitivityMultiplierUnit)" },
 			{ "Str_DefaultMult", "기본값 (0.02)" },
 			{ "Str_PrecisionMult", "정밀 10배 (0.00223)" },
-			{ "Str_RawInput", "원시 입력" },
-			{ "Str_SensCard2Title", "조준기(ADS) 감도 및 FPS 최대 제한" },
-			{ "Str_Ads1x", "1.0x 무배율/도트 조준" },
-			{ "Str_Ads2x5", "2.5x 어콕/망원 조준" },
-			{ "Str_FpsLimitTitle", "FPS 최대 제한 (FPSLimit)" },
-			{ "Str_FpsUnlimited", "제한 없음 (0)" },
+			{ "Str_XFactorTitle", "조준 감도 멀티플라이어 (XFactorAiming)" },
+			{ "Str_XFactorDesc", "0.083333으로 변경 시 1.0x 무배율 조준 감도가 지향사격 감도와 1:1로 일치해요." },
+			{ "Str_XFactorDefault", "기본값 (0.02)" },
+			{ "Str_XFactor1to1", "1:1 매칭 (0.083333)" },
 
 			// Tab 2: Sync & Backup
 			{ "Str_SyncCardTitle", "다계정 설정 일괄 동기화" },
@@ -113,7 +109,7 @@ namespace R6Tools.Services
 			{ "Str_LaunchSteam", "Steam으로 실행" },
 			{ "Str_LaunchUbisoft", "Ubisoft로 실행" },
 			{ "Str_CtaServer", "서버 변경하기" },
-			{ "Str_CtaSens", "감도 및 디스플레이 설정 저장" },
+			{ "Str_CtaSens", "멀티플라이어 설정 저장" },
 			{ "Str_CtaSync", "기준 계정 설정 동기화하기" },
 			{ "Str_CtaReplay", "선택 리플레이 영구 보관소로 백업" },
 			{ "Str_CtaCache", "선택한 캐시 파일 안전 삭제" },
@@ -129,7 +125,7 @@ namespace R6Tools.Services
 
 			// Tabs
 			{ "Str_TabServer", "Server" },
-			{ "Str_TabSens", "Sensitivity" },
+			{ "Str_TabSens", "Multiplier" },
 			{ "Str_TabSync", "Sync" },
 			{ "Str_TabReplay", "Replays" },
 			{ "Str_TabCache", "Clean Cache" },
@@ -150,25 +146,21 @@ namespace R6Tools.Services
 			{ "Str_TestAllPing", "Test Ping for All Servers" },
 			{ "Str_AutoConnectNotice", "💡 Auto Connect: Automatically connects to the lowest-ping server upon game launch." },
 
-			// Tab 1: Sensitivity & FPS
-			{ "Str_SensCard1Title", "Mouse 360° Turn Distance & Sensitivity" },
+			// Tab 1: Sensitivity Multiplier
+			{ "Str_SensCard1Title", "360° Turn Distance & Sensitivity Multipliers" },
 			{ "Str_Cm360Desc", "Physical mouse distance required for a full 360° rotation" },
 			{ "Str_SuggestionTitle", "🔄 Multiplier Change Detected · Sensitivity Match Suggestion" },
 			{ "Str_ApplySuggestion", "Apply Suggested Sensitivity" },
 			{ "Str_DismissSuggestion", "Dismiss" },
 			{ "Str_MouseDpiTitle", "Mouse Hardware DPI" },
 			{ "Str_MouseDpiDesc", "Configured DPI from mouse software" },
-			{ "Str_YawSens", "In-Game Horizontal Sens (Yaw)" },
-			{ "Str_PitchSens", "In-Game Vertical Sens (Pitch)" },
 			{ "Str_MultiplierTitle", "Sensitivity Multiplier (MouseSensitivityMultiplierUnit)" },
 			{ "Str_DefaultMult", "Default (0.02)" },
 			{ "Str_PrecisionMult", "Precision 10x (0.00223)" },
-			{ "Str_RawInput", "Raw Input" },
-			{ "Str_SensCard2Title", "ADS Sensitivity & Maximum FPS Limit" },
-			{ "Str_Ads1x", "1.0x Standard / Iron Sight" },
-			{ "Str_Ads2x5", "2.5x Scope / ACOG" },
-			{ "Str_FpsLimitTitle", "Maximum FPS Limit (FPSLimit)" },
-			{ "Str_FpsUnlimited", "Unlimited (0)" },
+			{ "Str_XFactorTitle", "ADS Multiplier (XFactorAiming)" },
+			{ "Str_XFactorDesc", "Set to 0.083333 to match 1.0x ADS sensitivity 1:1 with hipfire." },
+			{ "Str_XFactorDefault", "Default (0.02)" },
+			{ "Str_XFactor1to1", "1:1 Match (0.083333)" },
 
 			// Tab 2: Sync & Backup
 			{ "Str_SyncCardTitle", "Sync Settings to Secondary Accounts" },
@@ -217,7 +209,7 @@ namespace R6Tools.Services
 			{ "Str_LaunchSteam", "Launch via Steam" },
 			{ "Str_LaunchUbisoft", "Launch via Ubisoft" },
 			{ "Str_CtaServer", "Apply Server Change" },
-			{ "Str_CtaSens", "Save Sensitivity & Settings" },
+			{ "Str_CtaSens", "Save Multiplier Settings" },
 			{ "Str_CtaSync", "Sync Active Account Settings" },
 			{ "Str_CtaReplay", "Backup Replay to Archive" },
 			{ "Str_CtaCache", "Clean Selected Cache Files" },

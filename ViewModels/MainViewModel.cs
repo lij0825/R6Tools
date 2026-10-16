@@ -167,21 +167,6 @@ namespace R6Tools.ViewModels
 		private bool isConversionWarning;
 
 		[ObservableProperty]
-		private int currentFpsLimit = 0;
-
-		[ObservableProperty]
-		private string fpsLimitDisplayText = "제한 없음 (0)";
-
-		[ObservableProperty]
-		private int adsStandard = 50;
-
-		[ObservableProperty]
-		private int adsScope1x = 50;
-
-		[ObservableProperty]
-		private int adsScope2x5 = 50;
-
-		[ObservableProperty]
 		private bool syncInput = true;
 
 		[ObservableProperty]
@@ -364,10 +349,6 @@ namespace R6Tools.ViewModels
 			CheckMultiplierConversionSuggestion();
 		}
 
-		partial void OnCurrentFpsLimitChanged(int value)
-		{
-			FpsLimitDisplayText = value == 0 ? "제한 없음 (0)" : $"{value} FPS";
-		}
 
 		public MainViewModel()
 		{
@@ -468,12 +449,6 @@ namespace R6Tools.ViewModels
 				_loadedMultiplier = mult.MouseSensitivityMultiplierUnit;
 				HasConversionSuggestion = false;
 
-				CurrentFpsLimit = _iniParser.GetFpsLimit(account.IniFilePath);
-
-				var ads = _iniParser.GetAdsSensitivitySettings(account.IniFilePath);
-				AdsStandard = ads.StandardAds;
-				AdsScope1x = ads.Scope1x;
-				AdsScope2x5 = ads.Scope2x5;
 
 				UpdateMultiplierHelp();
 				RecalculateCm360();
@@ -572,42 +547,7 @@ namespace R6Tools.ViewModels
 			}
 		}
 
-		[RelayCommand]
-		private void StepYaw(string stepStr)
-		{
-			if (int.TryParse(stepStr, out int step))
-			{
-				CurrentYawSensitivity = Math.Clamp(CurrentYawSensitivity + step, 1, 100);
-			}
-		}
 
-		[RelayCommand]
-		private void StepPitch(string stepStr)
-		{
-			if (int.TryParse(stepStr, out int step))
-			{
-				CurrentPitchSensitivity = Math.Clamp(CurrentPitchSensitivity + step, 1, 100);
-			}
-		}
-
-		[RelayCommand]
-		private void SetFpsLimitPreset(string fpsPresetStr)
-		{
-			if (int.TryParse(fpsPresetStr, out int targetFps))
-			{
-				CurrentFpsLimit = targetFps;
-			}
-		}
-
-		[RelayCommand]
-		private void StepFpsLimit(string stepStr)
-		{
-			if (int.TryParse(stepStr, out int step))
-			{
-				int next = Math.Max(0, CurrentFpsLimit + step);
-				CurrentFpsLimit = next;
-			}
-		}
 
 		[RelayCommand]
 		private void SetXFactorAimingPreset(string xFactorPresetStr)
@@ -626,32 +566,7 @@ namespace R6Tools.ViewModels
 			}
 		}
 
-		[RelayCommand]
-		private void StepAdsStandard(string stepStr)
-		{
-			if (int.TryParse(stepStr, out int step))
-			{
-				AdsStandard = Math.Clamp(AdsStandard + step, 1, 100);
-			}
-		}
 
-		[RelayCommand]
-		private void StepAdsScope1x(string stepStr)
-		{
-			if (int.TryParse(stepStr, out int step))
-			{
-				AdsScope1x = Math.Clamp(AdsScope1x + step, 1, 100);
-			}
-		}
-
-		[RelayCommand]
-		private void StepAdsScope2x5(string stepStr)
-		{
-			if (int.TryParse(stepStr, out int step))
-			{
-				AdsScope2x5 = Math.Clamp(AdsScope2x5 + step, 1, 100);
-			}
-		}
 
 		[RelayCommand]
 		private void SelectTab(string tabIndexStr)
@@ -867,22 +782,11 @@ namespace R6Tools.ViewModels
 					MousePitchSensitivity = CurrentPitchSensitivity
 				};
 
-				int fpsLimit = CurrentFpsLimit;
-				var adsSettings = new AdsSensitivitySettings
-				{
-					StandardAds = AdsStandard,
-					Scope1x = AdsScope1x,
-					Scope2x5 = AdsScope2x5,
-					UseAdvancedAds = true
-				};
-
 				await Task.Run(() =>
 				{
 					foreach (var acc in targetAccounts)
 					{
 						_iniParser.UpdateMultiplierSettings(acc.IniFilePath, settings);
-						_iniParser.UpdateFpsLimit(acc.IniFilePath, fpsLimit);
-						_iniParser.UpdateAdsSensitivitySettings(acc.IniFilePath, adsSettings);
 					}
 				});
 
@@ -890,16 +794,20 @@ namespace R6Tools.ViewModels
 				HasConversionSuggestion = false;
 
 				string msg = ApplyToAllAccounts
-					? $"모든 계정({targetAccounts.Count}개)에 감도, FPSLimit, ADS 설정을 저장했어요."
-					: $"선택한 계정에 감도, FPSLimit, ADS 설정을 저장했어요.";
+					? (_loc.IsEnglish
+						? $"Saved multiplier settings to all {targetAccounts.Count} accounts."
+						: $"모든 계정({targetAccounts.Count}개)에 멀티플라이어 설정을 저장했어요.")
+					: (_loc.IsEnglish
+						? "Saved multiplier settings to the selected account."
+						: "선택한 계정에 멀티플라이어 설정을 저장했어요.");
 
-				StatusMessage = "감도 및 디스플레이 설정을 안전하게 저장했어요.";
-				MessageBox.Show(msg, "완료", MessageBoxButton.OK, MessageBoxImage.Information);
+				StatusMessage = _loc.IsEnglish ? "Saved multiplier settings." : "멀티플라이어 설정을 안전하게 저장했어요.";
+				MessageBox.Show(msg, _loc.IsEnglish ? "Complete" : "완료", MessageBoxButton.OK, MessageBoxImage.Information);
 			}
 			catch (Exception ex)
 			{
-				StatusMessage = "감도 설정 저장 실패: " + ex.Message;
-				MessageBox.Show($"감도 설정을 변경하지 못했습니다: {ex.Message}", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+				StatusMessage = _loc.IsEnglish ? "Failed to save multiplier: " + ex.Message : "멀티플라이어 설정 저장 실패: " + ex.Message;
+				MessageBox.Show(_loc.IsEnglish ? $"Failed to save multiplier: {ex.Message}" : $"멀티플라이어 설정을 변경하지 못했습니다: {ex.Message}", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 

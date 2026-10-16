@@ -621,12 +621,13 @@
 					</Border>
 				</StackPanel>
 
-				<!-- ================= TAB 1: 감도 · FPS 섹션 ================= -->
+				<!-- ================= TAB 1: 멀티플라이어 섹션 ================= -->
 				<StackPanel Visibility="{Binding IsMultiplierTab, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-					<!-- 통합 카드 1: 마우스 감도 및 정밀 멀티플라이어 -->
+					<!-- 단일 통합 카드: 마우스 및 조준 감도 멀티플라이어 -->
 					<Border Style="{StaticResource TossCardBorder}">
 						<StackPanel>
+							<!-- 카드 헤더 -->
 							<Grid Margin="0,0,0,8">
 								<TextBlock Text="{DynamicResource Str_SensCard1Title}" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource TossGrey900Brush}" VerticalAlignment="Center"/>
 								<Border Background="{DynamicResource TossBlueWeakBrush}" CornerRadius="6" Padding="8,3" HorizontalAlignment="Right">
@@ -634,7 +635,7 @@
 								</Border>
 							</Grid>
 
-							<!-- 대형 cm/360° 수치 디스플레이 -->
+							<!-- 1. 대형 cm/360° 회전 거리 수치 디스플레이 -->
 							<Border Background="{DynamicResource TossGrey100Brush}" CornerRadius="10" Padding="14,10" Margin="0,0,0,12">
 								<Grid>
 									<Grid.ColumnDefinitions>
@@ -651,7 +652,7 @@
 								</Grid>
 							</Border>
 
-							<!-- 감도 변환 제안 배너 -->
+							<!-- 2. 감도 변환 제안 배너 (멀티플라이어 변경 시 체감 감도 유지 안내) -->
 							<Border Background="{DynamicResource TossBlueWeakBrush}" BorderBrush="{DynamicResource TossBlueBrush}" BorderThickness="1" CornerRadius="8" Padding="12,10" Margin="0,0,0,12" Visibility="{Binding HasConversionSuggestion, Converter={StaticResource BooleanToVisibilityConverter}}">
 								<StackPanel>
 									<TextBlock Text="{DynamicResource Str_SuggestionTitle}" FontWeight="Bold" FontSize="12" Foreground="{DynamicResource TossBlueBrush}" Margin="0,0,0,3"/>
@@ -668,8 +669,8 @@
 								</StackPanel>
 							</Border>
 
-							<!-- 마우스 DPI 설정 -->
-							<Grid Margin="0,0,0,12">
+							<!-- 3. 마우스 하드웨어 DPI 설정 -->
+							<Grid Margin="0,0,0,14">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*" />
 									<ColumnDefinition Width="Auto" />
@@ -686,61 +687,17 @@
 								</StackPanel>
 							</Grid>
 
-							<!-- 수평 감도 (Yaw) -->
-							<Grid Margin="0,0,0,10">
-								<Grid.RowDefinitions>
-									<RowDefinition Height="Auto"/>
-									<RowDefinition Height="Auto"/>
-								</Grid.RowDefinitions>
-								<Grid Grid.Row="0" Margin="0,0,0,2">
-									<TextBlock Text="{DynamicResource Str_YawSens}" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource TossGrey800Brush}" />
-									<TextBlock Text="{Binding CurrentYawSensitivity}" HorizontalAlignment="Right" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource TossBlueBrush}" />
-								</Grid>
-								<Grid Grid.Row="1">
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto" />
-										<ColumnDefinition Width="*" />
-										<ColumnDefinition Width="Auto" />
-									</Grid.ColumnDefinitions>
-									<Button Grid.Column="0" Content="−" Command="{Binding StepYawCommand}" CommandParameter="-1" Style="{StaticResource TossCompactStepButtonStyle}" />
-									<Slider Grid.Column="1" Minimum="1" Maximum="100" Value="{Binding CurrentYawSensitivity, Mode=TwoWay}" VerticalAlignment="Center" Margin="8,0" />
-									<Button Grid.Column="2" Content="+" Command="{Binding StepYawCommand}" CommandParameter="1" Style="{StaticResource TossCompactStepButtonStyle}" />
-								</Grid>
-							</Grid>
-
-							<!-- 수직 감도 (Pitch) -->
-							<Grid Margin="0,0,0,12">
-								<Grid.RowDefinitions>
-									<RowDefinition Height="Auto"/>
-									<RowDefinition Height="Auto"/>
-								</Grid.RowDefinitions>
-								<Grid Grid.Row="0" Margin="0,0,0,2">
-									<TextBlock Text="{DynamicResource Str_PitchSens}" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource TossGrey800Brush}" />
-									<TextBlock Text="{Binding CurrentPitchSensitivity}" HorizontalAlignment="Right" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource TossBlueBrush}" />
-								</Grid>
-								<Grid Grid.Row="1">
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto" />
-										<ColumnDefinition Width="*" />
-										<ColumnDefinition Width="Auto" />
-									</Grid.ColumnDefinitions>
-									<Button Grid.Column="0" Content="−" Command="{Binding StepPitchCommand}" CommandParameter="-1" Style="{StaticResource TossCompactStepButtonStyle}" />
-									<Slider Grid.Column="1" Minimum="1" Maximum="100" Value="{Binding CurrentPitchSensitivity, Mode=TwoWay}" VerticalAlignment="Center" Margin="8,0" />
-									<Button Grid.Column="2" Content="+" Command="{Binding StepPitchCommand}" CommandParameter="1" Style="{StaticResource TossCompactStepButtonStyle}" />
-								</Grid>
-							</Grid>
-
 							<!-- 구분선 -->
-							<Border Height="1" Background="{DynamicResource TossGrey200Brush}" Margin="0,0,0,12" />
+							<Border Height="1" Background="{DynamicResource TossGrey200Brush}" Margin="0,0,0,14" />
 
-							<!-- 마우스 멀티플라이어 및 RawInput -->
+							<!-- 4. 마우스 감도 멀티플라이어 (MouseSensitivityMultiplierUnit) -->
 							<Grid Margin="0,0,0,6">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*" />
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 								<StackPanel Grid.Column="0">
-									<TextBlock Text="{DynamicResource Str_MultiplierTitle}" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource TossGrey800Brush}" />
+									<TextBlock Text="{DynamicResource Str_MultiplierTitle}" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource TossGrey900Brush}" />
 									<TextBlock Text="{Binding MultiplierHelpText}" FontSize="11" Foreground="{DynamicResource TossGrey500Brush}" TextWrapping="Wrap" Margin="0,1,0,0"/>
 								</StackPanel>
 								<StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
@@ -748,91 +705,28 @@
 									<Button Content="{DynamicResource Str_PrecisionMult}" Command="{Binding SetPrecisionMultiplierCommand}" Style="{StaticResource TossPillChipStyle}" Height="28" Margin="0,0,0,0"/>
 								</StackPanel>
 							</Grid>
-
-							<Grid>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="8" />
-									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="8" />
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
-								<TextBox Grid.Column="0" Text="{Binding MouseMultiplierText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TossInputStyle}" Height="34" FontSize="12" />
-								<TextBox Grid.Column="2" Text="{Binding XFactorAimingText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TossInputStyle}" Height="34" FontSize="12" />
-								<CheckBox Grid.Column="4" IsChecked="{Binding RawInput, Mode=TwoWay}" VerticalAlignment="Center">
-									<TextBlock Text="{DynamicResource Str_RawInput}" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TossGrey800Brush}" />
-								</CheckBox>
-							</Grid>
-						</StackPanel>
-					</Border>
-
-					<!-- 통합 카드 2: 조준기 감도 & FPS 최대 제한 -->
-					<Border Style="{StaticResource TossCardBorder}">
-						<StackPanel>
-							<TextBlock Text="{DynamicResource Str_SensCard2Title}" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource TossGrey900Brush}" Margin="0,0,0,10" />
-
-							<!-- 1.0x 배율 -->
-							<Grid Margin="0,0,0,8">
-								<Grid.RowDefinitions>
-									<RowDefinition Height="Auto"/>
-									<RowDefinition Height="Auto"/>
-								</Grid.RowDefinitions>
-								<Grid Grid.Row="0" Margin="0,0,0,2">
-									<TextBlock Text="{DynamicResource Str_Ads1x}" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TossGrey800Brush}" />
-									<TextBlock Text="{Binding AdsScope1x}" HorizontalAlignment="Right" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource TossBlueBrush}" />
-								</Grid>
-								<Grid Grid.Row="1">
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto" />
-										<ColumnDefinition Width="*" />
-										<ColumnDefinition Width="Auto" />
-									</Grid.ColumnDefinitions>
-									<Button Grid.Column="0" Content="−" Command="{Binding StepAdsScope1xCommand}" CommandParameter="-1" Style="{StaticResource TossCompactStepButtonStyle}" Width="32" Height="32"/>
-									<Slider Grid.Column="1" Minimum="1" Maximum="100" Value="{Binding AdsScope1x, Mode=TwoWay}" VerticalAlignment="Center" Margin="8,0" />
-									<Button Grid.Column="2" Content="+" Command="{Binding StepAdsScope1xCommand}" CommandParameter="1" Style="{StaticResource TossCompactStepButtonStyle}" Width="32" Height="32"/>
-								</Grid>
-							</Grid>
-
-							<!-- 2.5x 배율 -->
-							<Grid Margin="0,0,0,12">
-								<Grid.RowDefinitions>
-									<RowDefinition Height="Auto"/>
-									<RowDefinition Height="Auto"/>
-								</Grid.RowDefinitions>
-								<Grid Grid.Row="0" Margin="0,0,0,2">
-									<TextBlock Text="{DynamicResource Str_Ads2x5}" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TossGrey800Brush}" />
-									<TextBlock Text="{Binding AdsScope2x5}" HorizontalAlignment="Right" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource TossBlueBrush}" />
-								</Grid>
-								<Grid Grid.Row="1">
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto" />
-										<ColumnDefinition Width="*" />
-										<ColumnDefinition Width="Auto" />
-									</Grid.ColumnDefinitions>
-									<Button Grid.Column="0" Content="−" Command="{Binding StepAdsScope2x5Command}" CommandParameter="-1" Style="{StaticResource TossCompactStepButtonStyle}" Width="32" Height="32"/>
-									<Slider Grid.Column="1" Minimum="1" Maximum="100" Value="{Binding AdsScope2x5, Mode=TwoWay}" VerticalAlignment="Center" Margin="8,0" />
-									<Button Grid.Column="2" Content="+" Command="{Binding StepAdsScope2x5Command}" CommandParameter="1" Style="{StaticResource TossCompactStepButtonStyle}" Width="32" Height="32"/>
-								</Grid>
-							</Grid>
+							<TextBox Text="{Binding MouseMultiplierText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TossInputStyle}" Height="36" FontSize="13" Margin="0,0,0,14" />
 
 							<!-- 구분선 -->
-							<Border Height="1" Background="{DynamicResource TossGrey200Brush}" Margin="0,0,0,12" />
+							<Border Height="1" Background="{DynamicResource TossGrey200Brush}" Margin="0,0,0,14" />
 
-							<!-- FPS 최대 제한 -->
-							<Grid Margin="0,0,0,4">
-								<TextBlock Text="{DynamicResource Str_FpsLimitTitle}" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource TossGrey800Brush}" />
-								<TextBlock Text="{Binding FpsLimitDisplayText}" HorizontalAlignment="Right" FontSize="13" FontWeight="Bold" Foreground="{DynamicResource TossBlueBrush}" />
+							<!-- 5. 1.0x 조준 감도 멀티플라이어 (XFactorAiming) -->
+							<Grid Margin="0,0,0,6">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+								<StackPanel Grid.Column="0">
+									<TextBlock Text="{DynamicResource Str_XFactorTitle}" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource TossGrey900Brush}" />
+									<TextBlock Text="{DynamicResource Str_XFactorDesc}" FontSize="11" Foreground="{DynamicResource TossGrey500Brush}" TextWrapping="Wrap" Margin="0,1,0,0"/>
+								</StackPanel>
+								<StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+									<Button Content="{DynamicResource Str_XFactorDefault}" Command="{Binding SetXFactorAimingPresetCommand}" CommandParameter="0.020000" Style="{StaticResource TossPillChipStyle}" Height="28" Margin="0,0,4,0"/>
+									<Button Content="{DynamicResource Str_XFactor1to1}" Command="{Binding SetXFactorAimingPresetCommand}" CommandParameter="0.083333" Style="{StaticResource TossPillChipStyle}" Height="28" Margin="0,0,0,0"/>
+								</StackPanel>
 							</Grid>
+							<TextBox Text="{Binding XFactorAimingText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TossInputStyle}" Height="36" FontSize="13" />
 
-							<Slider Minimum="0" Maximum="360" Value="{Binding CurrentFpsLimit, Mode=TwoWay}" Margin="0,0,0,8" />
-
-							<WrapPanel>
-								<Button Content="{DynamicResource Str_FpsUnlimited}" Command="{Binding SetFpsLimitPresetCommand}" CommandParameter="0" Style="{StaticResource TossPillChipStyle}" Height="28"/>
-								<Button Content="141 FPS (144Hz)" Command="{Binding SetFpsLimitPresetCommand}" CommandParameter="141" Style="{StaticResource TossPillChipStyle}" Height="28"/>
-								<Button Content="162 FPS (165Hz)" Command="{Binding SetFpsLimitPresetCommand}" CommandParameter="162" Style="{StaticResource TossPillChipStyle}" Height="28"/>
-								<Button Content="237 FPS (240Hz)" Command="{Binding SetFpsLimitPresetCommand}" CommandParameter="237" Style="{StaticResource TossPillChipStyle}" Height="28"/>
-								<Button Content="357 FPS (360Hz)" Command="{Binding SetFpsLimitPresetCommand}" CommandParameter="357" Style="{StaticResource TossPillChipStyle}" Height="28"/>
-							</WrapPanel>
 						</StackPanel>
 					</Border>
 
