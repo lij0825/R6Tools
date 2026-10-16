@@ -20,7 +20,6 @@ namespace R6Tools.ViewModels
 		private readonly ProcessMonitorService _processMonitor;
 		private readonly PingService _pingService;
 		private readonly AccountAliasService _aliasService;
-		private readonly SensitivityCalculatorService _sensCalculator;
 		private readonly ReplayManagerService _replayService;
 		private readonly CacheCleanerService _cacheCleanerService;
 		private readonly LocalizationService _loc = LocalizationService.Instance;
@@ -123,49 +122,6 @@ namespace R6Tools.ViewModels
 
 		[ObservableProperty]
 		private int currentPitchSensitivity = 50;
-
-		[ObservableProperty]
-		private int mouseDpi = 800;
-
-		[ObservableProperty]
-		private double cm360;
-
-		[ObservableProperty]
-		private double inches360;
-
-		[ObservableProperty]
-		private int edpi;
-
-		[ObservableProperty]
-		private string cm360DisplayText = "19.9 cm";
-
-		[ObservableProperty]
-		private string cm360SubText = "7.8 in · eDPI 40,000";
-
-		[ObservableProperty]
-		private string sensitivityFeedbackBadge = "밸런스형 감도";
-
-		[ObservableProperty]
-		private bool hasConversionSuggestion;
-
-		[ObservableProperty]
-		private int suggestedYawSensitivity;
-
-		[ObservableProperty]
-		private int suggestedPitchSensitivity;
-
-		[ObservableProperty]
-		private double conversionErrorRate;
-
-		[ObservableProperty]
-		private string conversionSuggestionText = string.Empty;
-
-		[ObservableProperty]
-		private string conversionWarningText = string.Empty;
-
-		[ObservableProperty]
-		private bool isConversionWarning;
-
 		[ObservableProperty]
 		private bool syncInput = true;
 
@@ -322,33 +278,6 @@ namespace R6Tools.ViewModels
 			}
 		}
 
-		partial void OnCurrentYawSensitivityChanged(int value)
-		{
-			RecalculateCm360();
-			CheckMultiplierConversionSuggestion();
-		}
-
-		partial void OnCurrentPitchSensitivityChanged(int value)
-		{
-			CheckMultiplierConversionSuggestion();
-		}
-
-		partial void OnMouseDpiChanged(int value)
-		{
-			RecalculateCm360();
-			if (value > 0)
-			{
-				AppSettingsService.Instance.Settings.MouseDpi = value;
-				AppSettingsService.Instance.Save();
-			}
-		}
-
-		partial void OnMouseMultiplierTextChanged(string value)
-		{
-			RecalculateCm360();
-			CheckMultiplierConversionSuggestion();
-		}
-
 
 		public MainViewModel()
 		{
@@ -357,20 +286,12 @@ namespace R6Tools.ViewModels
 			_iniParser = new IniParserService();
 			_processMonitor = new ProcessMonitorService();
 			_pingService = new PingService();
-			_sensCalculator = new SensitivityCalculatorService();
 			_replayService = new ReplayManagerService();
 			_cacheCleanerService = new CacheCleanerService();
 
 			InitializeServers();
 			InitializeCacheTargets();
 			LoadPresets();
-
-			int savedDpi = AppSettingsService.Instance.Settings.MouseDpi;
-			if (savedDpi > 0)
-			{
-				MouseDpi = savedDpi;
-			}
-			RecalculateCm360();
 
 			MatchReplayPath = _replayService.DetectMatchReplayPath();
 
@@ -447,103 +368,13 @@ namespace R6Tools.ViewModels
 				RawInput = mult.RawInputMouseKeyboard;
 
 				_loadedMultiplier = mult.MouseSensitivityMultiplierUnit;
-				HasConversionSuggestion = false;
 
 
 				UpdateMultiplierHelp();
-				RecalculateCm360();
 			}
 			catch (Exception ex)
 			{
 				StatusMessage = "설정을 불러오는 중 문제가 생겼어요: " + ex.Message;
-			}
-		}
-
-		private void RecalculateCm360()
-		{
-			if (double.TryParse(MouseMultiplierText.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out double mult) && mult > 0 && MouseDpi > 0)
-			{
-				Cm360 = _sensCalculator.CalculateCm360(CurrentYawSensitivity, mult, MouseDpi);
-				Inches360 = _sensCalculator.CalculateInches360(Cm360);
-				Edpi = _sensCalculator.CalculateEdpi(MouseDpi, CurrentYawSensitivity);
-
-				Cm360DisplayText = $"{Cm360:0.0} cm";
-				Cm360SubText = $"{Inches360:0.1} in · eDPI {Edpi:N0}";
-
-				if (Cm360 < 22.0)
-				{
-					SensitivityFeedbackBadge = "고감도 (빠른 180° 전환)";
-				}
-				else if (Cm360 <= 48.0)
-				{
-					SensitivityFeedbackBadge = "중감도 (프로 표준 추천)";
-				}
-				else
-				{
-					SensitivityFeedbackBadge = "저감도 (정밀한 픽 헤드샷)";
-				}
-			}
-		}
-
-		private void CheckMultiplierConversionSuggestion()
-		{
-			if (double.TryParse(MouseMultiplierText.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out double newMult) &&
-				newMult > 0 && _loadedMultiplier > 0)
-			{
-				if (Math.Abs(newMult - _loadedMultiplier) > 0.000001)
-				{
-					var yawConv = _sensCalculator.ConvertSensitivity(CurrentYawSensitivity, _loadedMultiplier, newMult);
-					var pitchConv = _sensCalculator.ConvertSensitivity(CurrentPitchSensitivity, _loadedMultiplier, newMult);
-
-					SuggestedYawSensitivity = yawConv.NewSensitivity;
-					SuggestedPitchSensitivity = pitchConv.NewSensitivity;
-					ConversionErrorRate = yawConv.ErrorPercentage;
-
-					if (yawConv.IsOutOfRange || pitchConv.IsOutOfRange)
-					{
-						IsConversionWarning = true;
-						ConversionWarningText = "⚠️ 계산된 감도가 게임 한계(1~100)를 벗어나 최대/최소값으로 조정되었습니다.";
-					}
-					else
-					{
-						IsConversionWarning = false;
-						ConversionWarningText = string.Empty;
-					}
-
-					ConversionSuggestionText = $"기존 체감 감도를 유지하려면 인게임 감도를 수평 {SuggestedYawSensitivity}, 수직 {SuggestedPitchSensitivity}(으)로 변경하세요. (오차율: {ConversionErrorRate:0.00}%)";
-					HasConversionSuggestion = true;
-					return;
-				}
-			}
-
-			HasConversionSuggestion = false;
-		}
-
-		[RelayCommand]
-		private void ApplySuggestedSensitivity()
-		{
-			if (HasConversionSuggestion)
-			{
-				CurrentYawSensitivity = SuggestedYawSensitivity;
-				CurrentPitchSensitivity = SuggestedPitchSensitivity;
-				HasConversionSuggestion = false;
-				StatusMessage = $"환산 감도(수평 {CurrentYawSensitivity}, 수직 {CurrentPitchSensitivity})를 슬라이더에 반영했어요.";
-			}
-		}
-
-		[RelayCommand]
-		private void DismissSuggestedSensitivity()
-		{
-			HasConversionSuggestion = false;
-		}
-
-		[RelayCommand]
-		private void SetDpi(string dpiStr)
-		{
-			if (int.TryParse(dpiStr, out int dpi) && dpi > 0)
-			{
-				MouseDpi = dpi;
-				StatusMessage = $"마우스 DPI를 {dpi}(으)로 변경했어요.";
 			}
 		}
 
@@ -791,7 +622,6 @@ namespace R6Tools.ViewModels
 				});
 
 				_loadedMultiplier = mult;
-				HasConversionSuggestion = false;
 
 				string msg = ApplyToAllAccounts
 					? (_loc.IsEnglish

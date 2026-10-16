@@ -628,69 +628,10 @@
 					<Border Style="{StaticResource TossCardBorder}">
 						<StackPanel>
 							<!-- 카드 헤더 -->
-							<Grid Margin="0,0,0,8">
-								<TextBlock Text="{DynamicResource Str_SensCard1Title}" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource TossGrey900Brush}" VerticalAlignment="Center"/>
-								<Border Background="{DynamicResource TossBlueWeakBrush}" CornerRadius="6" Padding="8,3" HorizontalAlignment="Right">
-									<TextBlock Text="{Binding SensitivityFeedbackBadge}" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource TossBlueBrush}" />
-								</Border>
-							</Grid>
+							<TextBlock Text="{DynamicResource Str_SensCard1Title}" FontWeight="Bold" FontSize="15" Foreground="{DynamicResource TossGrey900Brush}" Margin="0,0,0,2" />
+							<TextBlock Text="{DynamicResource Str_SensCard1Desc}" FontSize="12" Foreground="{DynamicResource TossGrey500Brush}" Margin="0,0,0,14" />
 
-							<!-- 1. 대형 cm/360° 회전 거리 수치 디스플레이 -->
-							<Border Background="{DynamicResource TossGrey100Brush}" CornerRadius="10" Padding="14,10" Margin="0,0,0,12">
-								<Grid>
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="*" />
-										<ColumnDefinition Width="Auto" />
-									</Grid.ColumnDefinitions>
-									<StackPanel Grid.Column="0">
-										<TextBlock Text="{Binding Cm360DisplayText}" FontSize="26" FontWeight="Bold" Foreground="{DynamicResource TossBlueBrush}" />
-										<TextBlock Text="{DynamicResource Str_Cm360Desc}" FontSize="11" Foreground="{DynamicResource TossGrey600Brush}" Margin="0,1,0,0"/>
-									</StackPanel>
-									<Border Grid.Column="1" VerticalAlignment="Center" Padding="8,5" Background="{DynamicResource TossWhiteBrush}" CornerRadius="6">
-										<TextBlock Text="{Binding Cm360SubText}" FontSize="12" FontWeight="Bold" Foreground="{DynamicResource TossGrey800Brush}" />
-									</Border>
-								</Grid>
-							</Border>
-
-							<!-- 2. 감도 변환 제안 배너 (멀티플라이어 변경 시 체감 감도 유지 안내) -->
-							<Border Background="{DynamicResource TossBlueWeakBrush}" BorderBrush="{DynamicResource TossBlueBrush}" BorderThickness="1" CornerRadius="8" Padding="12,10" Margin="0,0,0,12" Visibility="{Binding HasConversionSuggestion, Converter={StaticResource BooleanToVisibilityConverter}}">
-								<StackPanel>
-									<TextBlock Text="{DynamicResource Str_SuggestionTitle}" FontWeight="Bold" FontSize="12" Foreground="{DynamicResource TossBlueBrush}" Margin="0,0,0,3"/>
-									<TextBlock Text="{Binding ConversionSuggestionText}" FontSize="11" Foreground="{DynamicResource TossGrey800Brush}" TextWrapping="Wrap" Margin="0,0,0,6"/>
-									<Grid>
-										<Grid.ColumnDefinitions>
-											<ColumnDefinition Width="*" />
-											<ColumnDefinition Width="6" />
-											<ColumnDefinition Width="*" />
-										</Grid.ColumnDefinitions>
-										<Button Grid.Column="0" Content="{DynamicResource Str_ApplySuggestion}" Command="{Binding ApplySuggestedSensitivityCommand}" Style="{StaticResource TossSmallButtonStyle}" Background="{DynamicResource TossBlueBrush}" Foreground="#FFFFFF" Height="30" />
-										<Button Grid.Column="2" Content="{DynamicResource Str_DismissSuggestion}" Command="{Binding DismissSuggestedSensitivityCommand}" Style="{StaticResource TossSmallButtonStyle}" Height="30" />
-									</Grid>
-								</StackPanel>
-							</Border>
-
-							<!-- 3. 마우스 하드웨어 DPI 설정 -->
-							<Grid Margin="0,0,0,14">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
-								<StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0">
-									<TextBlock Text="{DynamicResource Str_MouseDpiTitle}" FontWeight="Bold" FontSize="13" Foreground="{DynamicResource TossGrey900Brush}" />
-									<TextBlock Text="{DynamicResource Str_MouseDpiDesc}" FontSize="11" Foreground="{DynamicResource TossGrey500Brush}" />
-								</StackPanel>
-								<StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-									<Button Content="400" Command="{Binding SetDpiCommand}" CommandParameter="400" Style="{StaticResource TossPillChipStyle}" Height="28"/>
-									<Button Content="800" Command="{Binding SetDpiCommand}" CommandParameter="800" Style="{StaticResource TossPillChipStyle}" Height="28"/>
-									<Button Content="1600" Command="{Binding SetDpiCommand}" CommandParameter="1600" Style="{StaticResource TossPillChipStyle}" Height="28"/>
-									<TextBox Text="{Binding MouseDpi, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TossInputStyle}" Width="60" Height="28" FontSize="11" />
-								</StackPanel>
-							</Grid>
-
-							<!-- 구분선 -->
-							<Border Height="1" Background="{DynamicResource TossGrey200Brush}" Margin="0,0,0,14" />
-
-							<!-- 4. 마우스 감도 멀티플라이어 (MouseSensitivityMultiplierUnit) -->
+							<!-- 1. 마우스 감도 멀티플라이어 (MouseSensitivityMultiplierUnit) -->
 							<Grid Margin="0,0,0,6">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*" />
@@ -705,12 +646,12 @@
 									<Button Content="{DynamicResource Str_PrecisionMult}" Command="{Binding SetPrecisionMultiplierCommand}" Style="{StaticResource TossPillChipStyle}" Height="28" Margin="0,0,0,0"/>
 								</StackPanel>
 							</Grid>
-							<TextBox Text="{Binding MouseMultiplierText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TossInputStyle}" Height="36" FontSize="13" Margin="0,0,0,14" />
+							<TextBox Text="{Binding MouseMultiplierText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TossInputStyle}" Height="36" FontSize="13" Margin="0,0,0,16" />
 
 							<!-- 구분선 -->
 							<Border Height="1" Background="{DynamicResource TossGrey200Brush}" Margin="0,0,0,14" />
 
-							<!-- 5. 1.0x 조준 감도 멀티플라이어 (XFactorAiming) -->
+							<!-- 2. 1.0x 조준 감도 멀티플라이어 (XFactorAiming) -->
 							<Grid Margin="0,0,0,6">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="*" />
